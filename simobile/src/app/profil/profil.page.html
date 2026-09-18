@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div id="frame">
+    <ion-avatar id="myAvatar">
+      <ion-img [src]="foto || gambarDefault"></ion-img>
+    </ion-avatar>
+  </div>
+
+  <ion-card class="kartu-profil">
+    <ion-card-content>
+
+      <ion-list *ngIf="!modeEdit" lines="none">
+        <ion-item>
+          <ion-label><h2>{{ nama }}</h2><p>{{ role }}</p></ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-list *ngIf="modeEdit">
+        <ion-item>
+          <ion-input label="Nama" labelPlacement="stacked" [(ngModel)]="nama"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Role" labelPlacement="stacked" [(ngModel)]="role"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="URL Foto" labelPlacement="stacked" placeholder="https://..." [(ngModel)]="foto"></ion-input>
+        </ion-item>
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" *ngIf="!modeEdit" (click)="modeEdit = true">Edit Profil</ion-button>
+  <ion-button expand="block" *ngIf="modeEdit" (click)="simpanProfil()">Simpan</ion-button>
+
+</ion-content>

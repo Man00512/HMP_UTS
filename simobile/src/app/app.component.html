@@ -1,3 +1,48 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="dashboard">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="produk">
+        <ion-icon name="cube"></ion-icon>
+        <ion-label>Produk</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="transaksi">
+        <ion-icon name="receipt"></ion-icon>
+        <ion-label>Transaksi</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="profil">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Profil</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+  <ion-menu content-id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu List</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-menu-toggle>
+          <ion-item routerLink="/pengaturan">
+            <ion-icon name="settings-outline" slot="start"></ion-icon>
+            <ion-label>Pengaturan</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item routerLink="/tentang">
+            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+            <ion-label>Tentang</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 </ion-app>

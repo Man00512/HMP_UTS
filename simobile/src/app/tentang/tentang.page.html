@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tentang Aplikasi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div id="frame-logo">
+    <ion-avatar id="logoApp">
+      <ion-img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Ionic_Logo.svg"></ion-img>
+    </ion-avatar>
+  </div>
+
+  <ion-card class="kartu-tentang">
+    <ion-card-header>
+      <ion-card-title>{{ namaApp }}</ion-card-title>
+      <ion-card-subtitle>Versi {{ versi }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Aplikasi kasir mobile sederhana untuk membantu Toko Makmur Jaya mencatat
+      transaksi, stok, dan produk terlaris tanpa perlu koneksi internet.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list-header>
+    <ion-label>Tim Pengembang</ion-label>
+  </ion-list-header>
+  <ion-list lines="full">
+    <ion-item *ngFor="let anggota of timPengembang">
+      <ion-label>{{ anggota.nama }}</ion-label>
+      <ion-note slot="end">{{ anggota.nrp }}</ion-note>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

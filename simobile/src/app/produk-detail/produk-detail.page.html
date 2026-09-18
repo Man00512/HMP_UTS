@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/produk"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detail Produk</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" *ngIf="produk">
+
+  <div id="frame-gambar">
+    <ion-img [src]="produk.gambar || gambarDefault"></ion-img>
+  </div>
+
+  <ion-card class="kartu-detail">
+    <ion-card-header>
+      <ion-card-title>{{ produk.nama }}</ion-card-title>
+      <ion-card-subtitle>{{ produk.kategori }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item>
+          <ion-label>Stok Sisa</ion-label>
+          <ion-note slot="end">{{ produk.stok }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Harga Beli</ion-label>
+          <ion-note slot="end">Rp {{ produk.hargaBeli }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Harga Jual</ion-label>
+          <ion-note slot="end">Rp {{ produk.hargaJual }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Estimasi Untung</ion-label>
+          <ion-note slot="end">Rp {{ hitungUntung() }}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" [disabled]="produk.stok === 0" (click)="tambahKeKeranjang()">
+    {{ produk.stok === 0 ? 'Stok Habis' : 'Tambah ke Keranjang' }}
+  </ion-button>
+
+</ion-content>
