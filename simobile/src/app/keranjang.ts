@@ -12,8 +12,7 @@ export interface KeranjangItem {
 export class Keranjang {
 
   items: KeranjangItem[] = [];
-
-  // dipanggil dari produk-detail.page.ts saat tombol "Tambah ke Keranjang" diklik
+  
   tambahKeKeranjang(produk: ProdukItem) {
     const itemAda = this.items.find(i => i.produk.id === produk.id);
     if (itemAda) {
