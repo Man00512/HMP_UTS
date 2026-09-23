@@ -1,41 +1,128 @@
 import { Injectable } from '@angular/core';
 
-export interface Produk {
+export interface ProdukItem {
   id: number;
   nama: string;
   kategori: string;
+  gambar: string;      // dikosongkan ('') kalau foto belum ada -> ditampilkan gambar default
   hargaBeli: number;
   hargaJual: number;
   stok: number;
-  gambar: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ProdukService {
+export class Produk {
 
-  produkList: Produk[] = [
-    { id: 1, nama: 'Beras 5kg', kategori: 'Sembako', hargaBeli: 60000, hargaJual: 68000, stok: 12, gambar: '' },
-    { id: 2, nama: 'Minyak Goreng 1L', kategori: 'Sembako', hargaBeli: 15000, hargaJual: 18000, stok: 20, gambar: '' },
-    { id: 3, nama: 'Gula Pasir 1kg', kategori: 'Sembako', hargaBeli: 13000, hargaJual: 16000, stok: 0, gambar: '' },
-    { id: 4, nama: 'Telur Ayam 1kg', kategori: 'Segar', hargaBeli: 25000, hargaJual: 29000, stok: 15, gambar: '' },
-    { id: 5, nama: 'Indomie Goreng', kategori: 'Instan', hargaBeli: 2800, hargaJual: 3500, stok: 50, gambar: '' },
-    { id: 6, nama: 'Teh Celup', kategori: 'Minuman', hargaBeli: 7000, hargaJual: 9000, stok: 10, gambar: '' },
-    { id: 7, nama: 'Kopi Sachet', kategori: 'Minuman', hargaBeli: 12000, hargaJual: 15000, stok: 0, gambar: '' },
-    { id: 8, nama: 'Sabun Mandi', kategori: 'Kebutuhan Rumah', hargaBeli: 4000, hargaJual: 6000, stok: 30, gambar: '' },
-    { id: 9, nama: 'Deterjen Bubuk 1kg', kategori: 'Kebutuhan Rumah', hargaBeli: 14000, hargaJual: 18000, stok: 8, gambar: '' },
-    { id: 10, nama: 'Sikat Gigi', kategori: 'Kebutuhan Rumah', hargaBeli: 3000, hargaJual: 5000, stok: 25, gambar: '' },
+  // minimal 10 data dummy, variasi harga / stok / kategori
+  daftarProduk: ProdukItem[] = [
+    {
+      id: 1,
+      nama: 'Beras Pandan Wangi 5kg',
+      kategori: 'Sembako',
+      gambar: 'https://picsum.photos/seed/beras/300/300',
+      hargaBeli: 62000,
+      hargaJual: 68000,
+      stok: 25,
+    },
+    {
+      id: 2,
+      nama: 'Minyak Goreng Bimoli 2L',
+      kategori: 'Sembako',
+      gambar: 'https://picsum.photos/seed/minyak/300/300',
+      hargaBeli: 32000,
+      hargaJual: 36000,
+      stok: 40,
+    },
+    {
+      id: 3,
+      nama: 'Gula Pasir Gulaku 1kg',
+      kategori: 'Sembako',
+      gambar: 'https://picsum.photos/seed/gula/300/300',
+      hargaBeli: 13000,
+      hargaJual: 15000,
+      stok: 3,
+    },
+    {
+      id: 4,
+      nama: 'Teh Botol Sosro 450ml',
+      kategori: 'Minuman',
+      gambar: 'https://picsum.photos/seed/teh/300/300',
+      hargaBeli: 3500,
+      hargaJual: 4500,
+      stok: 60,
+    },
+    {
+      id: 5,
+      nama: 'Kopi Kapal Api Sachet',
+      kategori: 'Minuman',
+      gambar: 'https://picsum.photos/seed/kopi/300/300',
+      hargaBeli: 1000,
+      hargaJual: 1500,
+      stok: 0, // stok habis -> tombol tambah ke keranjang harus disable
+    },
+    {
+      id: 6,
+      nama: 'Indomie Goreng',
+      kategori: 'Makanan Ringan',
+      gambar: 'https://picsum.photos/seed/indomie/300/300',
+      hargaBeli: 2800,
+      hargaJual: 3200,
+      stok: 100,
+    },
+    {
+      id: 7,
+      nama: 'Chitato Sapi Panggang 68g',
+      kategori: 'Makanan Ringan',
+      gambar: '', // belum difoto -> pakai gambar default
+      hargaBeli: 8000,
+      hargaJual: 10000,
+      stok: 15,
+    },
+    {
+      id: 8,
+      nama: 'Sabun Mandi Lifebuoy',
+      kategori: 'Kebersihan',
+      gambar: 'https://picsum.photos/seed/sabun/300/300',
+      hargaBeli: 3000,
+      hargaJual: 4000,
+      stok: 30,
+    },
+    {
+      id: 9,
+      nama: 'Rinso Anti Noda 800g',
+      kategori: 'Kebersihan',
+      gambar: 'https://picsum.photos/seed/rinso/300/300',
+      hargaBeli: 14000,
+      hargaJual: 17000,
+      stok: 0, // stok habis
+    },
+    {
+      id: 10,
+      nama: 'Kecap Manis ABC 220ml',
+      kategori: 'Bumbu Dapur',
+      gambar: 'https://picsum.photos/seed/kecap/300/300',
+      hargaBeli: 8000,
+      hargaJual: 10000,
+      stok: 20,
+    },
+    {
+      id: 11,
+      nama: 'Royco Ayam',
+      kategori: 'Bumbu Dapur',
+      gambar: 'https://picsum.photos/seed/royco/300/300',
+      hargaBeli: 1500,
+      hargaJual: 2000,
+      stok: 50,
+    },
   ];
 
-  constructor() { }
-
-  getAllProduk(): Produk[] {
-    return this.produkList;
+  getSemuaProduk(): ProdukItem[] {
+    return this.daftarProduk;
   }
 
-  // TAMBAHAN untuk halaman detail
-  getProdukById(id: number): Produk | undefined {
-    return this.produkList.find(p => p.id === id);
+  getProdukById(id: number): ProdukItem | undefined {
+    return this.daftarProduk.find(p => p.id === id);
   }
 }

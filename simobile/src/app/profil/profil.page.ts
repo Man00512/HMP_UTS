@@ -5,41 +5,36 @@ import { AnimationController } from '@ionic/angular';
   selector: 'app-profil',
   templateUrl: './profil.page.html',
   styleUrls: ['./profil.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ProfilPage implements OnInit {
 
-  gambarDefault: string = 'https://ubaya.cloud/no_image.jpg';
-  nama: string = 'Marni';
-  role: string = 'Kasir Toko Makmur Jaya';
-  foto: string = '';
-  modeEdit: boolean = false;
+  namaToko = 'Toko Makmur Jaya';
+  namaPemilik = 'Bu Marni';
+  alamat = 'Jl. Raya Kalirungkut No. 12, Surabaya';
+  telepon = '0812-3456-7890';
+  fotoProfil = 'https://i.pravatar.cc/300?img=47';
 
   constructor(private animationCtrl: AnimationController) { }
 
-  ngOnInit() { }
-
-  ionViewDidEnter() {
-    this.fadeInAvatar();
+  ngOnInit() {
   }
 
-  // ANIMASI 1 - fade in avatar
-  fadeInAvatar() {
-    const avatarElement = document.querySelector('#myAvatar') as HTMLElement;
+  ionViewDidEnter() {
+    this.munculkanAvatar();
+  }
+
+  munculkanAvatar() {
+    const avatarElement = document.querySelector('#avatarProfil') as HTMLElement;
     if (!avatarElement) return;
     const animation = this.animationCtrl
       .create()
       .addElement(avatarElement)
-      .duration(800)
-      .iterations(1)
+      .duration(700)
       .keyframes([
-        { offset: 0, opacity: '0' },
-        { offset: 1, opacity: '1' },
+        { offset: 0, opacity: '0', transform: 'scale(0.7)' },
+        { offset: 1, opacity: '1', transform: 'scale(1)' },
       ]);
     animation.play();
-  }
-
-  simpanProfil() {
-    this.modeEdit = false;
   }
 }

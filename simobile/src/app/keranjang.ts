@@ -1,17 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Produk } from './produk';
+import { ProdukItem } from './produk';
+
+export interface KeranjangItem {
+  produk: ProdukItem;
+  qty: number;
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class KeranjangService {
+export class Keranjang {
 
-  items: Produk[] = [];
+  items: KeranjangItem[] = [];
 
-  constructor() { }
+  // dipanggil dari produk-detail.page.ts saat tombol "Tambah ke Keranjang" diklik
+  tambahKeKeranjang(produk: ProdukItem) {
+    const itemAda = this.items.find(i => i.produk.id === produk.id);
+    if (itemAda) {
+      itemAda.qty += 1;
+    } else {
+      this.items.push({ produk: produk, qty: 1 });
+    }
+  }
 
- 
-  tambahKeranjang(produk: Produk) {
-    this.items.push(produk);
+  getItems(): KeranjangItem[] {
+    return this.items;
+  }
+
+  getTotalItem(): number {
+    return this.items.reduce((total, i) => total + i.qty, 0);
+  }
+
+  getTotalHarga(): number {
+    return this.items.reduce((total, i) => total + (i.produk.hargaJual * i.qty), 0);
   }
 }

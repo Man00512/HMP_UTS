@@ -1,45 +1,61 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+  <ion-toolbar color="primary">
     <ion-title>Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Profil</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-  <div id="frame">
-    <ion-avatar id="myAvatar">
-      <ion-img [src]="foto || gambarDefault"></ion-img>
+  <div class="bingkai-avatar">
+    <ion-avatar id="avatarProfil" class="avatar-besar">
+      <ion-img [src]="fotoProfil"></ion-img>
     </ion-avatar>
+    <h2 class="nama-pemilik">{{ namaPemilik }}</h2>
+    <ion-text color="medium">Pemilik Toko</ion-text>
   </div>
 
-  <ion-card class="kartu-profil">
-    <ion-card-content>
+  <ion-card class="kartu-info">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-icon name="storefront-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Nama Toko</p>
+          <h3>{{ namaToko }}</h3>
+        </ion-label>
+      </ion-item>
 
-      <ion-list *ngIf="!modeEdit" lines="none">
-        <ion-item>
-          <ion-label><h2>{{ nama }}</h2><p>{{ role }}</p></ion-label>
-        </ion-item>
-      </ion-list>
+      <ion-item>
+        <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Alamat</p>
+          <h3>{{ alamat }}</h3>
+        </ion-label>
+      </ion-item>
 
-      <ion-list *ngIf="modeEdit">
-        <ion-item>
-          <ion-input label="Nama" labelPlacement="stacked" [(ngModel)]="nama"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input label="Role" labelPlacement="stacked" [(ngModel)]="role"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input label="URL Foto" labelPlacement="stacked" placeholder="https://..." [(ngModel)]="foto"></ion-input>
-        </ion-item>
-      </ion-list>
-
-    </ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Telepon</p>
+          <h3>{{ telepon }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </ion-card>
 
-  <ion-button expand="block" *ngIf="!modeEdit" (click)="modeEdit = true">Edit Profil</ion-button>
-  <ion-button expand="block" *ngIf="modeEdit" (click)="simpanProfil()">Simpan</ion-button>
+  <div class="grup-tombol">
+    <ion-button expand="block" fill="outline" routerLink="/pengaturan">
+      <ion-icon name="settings-outline" slot="start"></ion-icon>
+      Pengaturan
+    </ion-button>
+    <ion-button expand="block" fill="outline" routerLink="/tentang">
+      <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+      Tentang Aplikasi
+    </ion-button>
+  </div>
 
 </ion-content>
