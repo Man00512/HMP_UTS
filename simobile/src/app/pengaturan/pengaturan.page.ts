@@ -8,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PengaturanPage implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  toggleDarkMode() {
+    document.body.classList.toggle('dark');
+  }
+
+  ngOnInit() {   // 👈 ini yang kemungkinan hilang
   }
 
 }

@@ -35,3 +35,78 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+body {
+    --ion-text-color: #880000;
+    --ion-toolbar-background: #f2f1f1;
+    --ion-toolbar-color: #2dd55b;
+
+    --ion-toolbar-color: #d52d2d;
+    --ion-color-primary: #d52d2d;
+    --ion-color-primary-rgb: 213, 45, 45;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #bb2828;
+    --ion-color-primary-tint: #d94242;
+
+    ion-icon {
+        color: var(--ion-color-primary);
+    }
+
+    ion-back-button,
+    ion-menu-button,
+    ion-buttons ion-button {
+        --color: var(--ion-color-primary);
+    }
+
+    ion-button {
+        --color: var(--ion-color-primary);
+    }
+
+    ion-tab-button {
+        --color: var(--ion-color-primary);
+        --color-selected: var(--ion-color-primary);
+    }
+
+    ion-toggle {
+        --track-background-checked: #380000;
+    }
+}
+
+body.dark {
+    --ion-background-color: #121212;
+    --ion-text-color: #2dd55b;
+
+    --ion-toolbar-background: #1e1e1e;
+    --ion-toolbar-color: #2dd55b;
+
+    --ion-color-primary: #2dd55b;
+    --ion-color-primary-rgb: 61, 210, 152;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #28bb50;
+    --ion-color-primary-tint: #42d96b;
+
+    ion-icon {
+        color: var(--ion-color-primary);
+    }
+
+    ion-back-button,
+    ion-menu-button,
+    ion-buttons ion-button {
+        --color: var(--ion-color-primary);
+    }
+
+    ion-button {
+        --color: var(--ion-color-primary);
+    }
+
+    ion-tab-button {
+        --color: var(--ion-color-primary);
+        --color-selected: var(--ion-color-primary);
+    }
+
+    ion-toggle {
+        --track-background-checked: #1a7a3c;
+    }
+}
