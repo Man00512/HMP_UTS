@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProdukItem } from './produk';
+import { Produk } from './produk';
 
 export interface KeranjangItem {
   produk: ProdukItem;

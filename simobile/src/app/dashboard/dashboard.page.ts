@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Produk } from '../produk';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardPage implements OnInit {
 
-  constructor() { }
+  jumlahProduk = 0;
+  totalTransaksiHariIni = 0;
+  produkTerlaris = '-';
+
+  constructor(private produk:Produk) { }
 
   ngOnInit() {
+    this.ringkasan();
+  }
+  
+  ionViewWillEnter() {//Untuk selalu update ringkasan
+    this.ringkasan();
+  }
+  private ringkasan(): void {
+    this.jumlahProduk = this.produk.getJumlahProduk();
   }
 
 }

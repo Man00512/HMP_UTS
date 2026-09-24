@@ -13,4 +13,19 @@
       <ion-title size="large">dashboard</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ringkasan Hari Ini</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-icon name="pricetags-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Jumlah Produk</ion-label>
+          <ion-note slot="end">{{ jumlahProduk }} item</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

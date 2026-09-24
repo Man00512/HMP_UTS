@@ -4,7 +4,7 @@ export interface ProdukItem {
   id: number;
   nama: string;
   kategori: string;
-  gambar: string;      // dikosongkan ('') kalau foto belum ada -> ditampilkan gambar default
+  gambar: string;      
   hargaBeli: number;
   hargaJual: number;
   stok: number;
@@ -15,13 +15,12 @@ export interface ProdukItem {
 })
 export class Produk {
 
-  // minimal 10 data dummy, variasi harga / stok / kategori
   daftarProduk: ProdukItem[] = [
     {
       id: 1,
       nama: 'Beras Pandan Wangi 5kg',
       kategori: 'Sembako',
-      gambar: 'https://picsum.photos/seed/beras/300/300',
+      gambar: 'https://tse1.mm.bing.net/th/id/OIP.y1wMIva9R7CUe_G9MJE5kgHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
       hargaBeli: 62000,
       hargaJual: 68000,
       stok: 25,
@@ -30,7 +29,7 @@ export class Produk {
       id: 2,
       nama: 'Minyak Goreng Bimoli 2L',
       kategori: 'Sembako',
-      gambar: 'https://picsum.photos/seed/minyak/300/300',
+      gambar: 'https://tse3.mm.bing.net/th/id/OIP.QE46gj4MRLAKI1yB4hDjfQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
       hargaBeli: 32000,
       hargaJual: 36000,
       stok: 40,
@@ -39,7 +38,7 @@ export class Produk {
       id: 3,
       nama: 'Gula Pasir Gulaku 1kg',
       kategori: 'Sembako',
-      gambar: 'https://picsum.photos/seed/gula/300/300',
+      gambar: '',
       hargaBeli: 13000,
       hargaJual: 15000,
       stok: 3,
@@ -48,7 +47,7 @@ export class Produk {
       id: 4,
       nama: 'Teh Botol Sosro 450ml',
       kategori: 'Minuman',
-      gambar: 'https://picsum.photos/seed/teh/300/300',
+      gambar: '',
       hargaBeli: 3500,
       hargaJual: 4500,
       stok: 60,
@@ -57,16 +56,16 @@ export class Produk {
       id: 5,
       nama: 'Kopi Kapal Api Sachet',
       kategori: 'Minuman',
-      gambar: 'https://picsum.photos/seed/kopi/300/300',
+      gambar: '',
       hargaBeli: 1000,
       hargaJual: 1500,
-      stok: 0, // stok habis -> tombol tambah ke keranjang harus disable
+      stok: 0, 
     },
     {
       id: 6,
       nama: 'Indomie Goreng',
       kategori: 'Makanan Ringan',
-      gambar: 'https://picsum.photos/seed/indomie/300/300',
+      gambar: '',
       hargaBeli: 2800,
       hargaJual: 3200,
       stok: 100,
@@ -75,7 +74,7 @@ export class Produk {
       id: 7,
       nama: 'Chitato Sapi Panggang 68g',
       kategori: 'Makanan Ringan',
-      gambar: '', // belum difoto -> pakai gambar default
+      gambar: '', 
       hargaBeli: 8000,
       hargaJual: 10000,
       stok: 15,
@@ -84,7 +83,7 @@ export class Produk {
       id: 8,
       nama: 'Sabun Mandi Lifebuoy',
       kategori: 'Kebersihan',
-      gambar: 'https://picsum.photos/seed/sabun/300/300',
+      gambar: '',
       hargaBeli: 3000,
       hargaJual: 4000,
       stok: 30,
@@ -93,16 +92,16 @@ export class Produk {
       id: 9,
       nama: 'Rinso Anti Noda 800g',
       kategori: 'Kebersihan',
-      gambar: 'https://picsum.photos/seed/rinso/300/300',
+      gambar: '',
       hargaBeli: 14000,
       hargaJual: 17000,
-      stok: 0, // stok habis
+      stok: 0,
     },
     {
       id: 10,
       nama: 'Kecap Manis ABC 220ml',
       kategori: 'Bumbu Dapur',
-      gambar: 'https://picsum.photos/seed/kecap/300/300',
+      gambar: '',
       hargaBeli: 8000,
       hargaJual: 10000,
       stok: 20,
@@ -111,7 +110,7 @@ export class Produk {
       id: 11,
       nama: 'Royco Ayam',
       kategori: 'Bumbu Dapur',
-      gambar: 'https://picsum.photos/seed/royco/300/300',
+      gambar: '',
       hargaBeli: 1500,
       hargaJual: 2000,
       stok: 50,
@@ -124,5 +123,9 @@ export class Produk {
 
   getProdukById(id: number): ProdukItem | undefined {
     return this.daftarProduk.find(p => p.id === id);
+  }
+
+  getJumlahProduk(): number {
+    return this.daftarProduk.length;
   }
 }
