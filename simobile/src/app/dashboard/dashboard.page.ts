@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Produk } from '../produk';
+import { Transaksi } from '../transaksi';
+import { Animation } from '../animation';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,22 +10,37 @@ import { Produk } from '../produk';
   standalone: false,
 })
 export class DashboardPage implements OnInit {
-
   jumlahProduk = 0;
-  totalTransaksiHariIni = 0;
+  jumlahTransaksiHariIni = 0;
+  totalPenjualanHariIni = 0;
   produkTerlaris = '-';
 
-  constructor(private produk:Produk) { }
+  constructor(
+    private produk: Produk,
+    private transaksi: Transaksi,
+    private animService: Animation
+  ) { }
 
   ngOnInit() {
     this.ringkasan();
   }
-  
-  ionViewWillEnter() {//Untuk selalu update ringkasan
+
+  ionViewWillEnter() {
     this.ringkasan();
   }
-  private ringkasan(): void {
-    this.jumlahProduk = this.produk.getJumlahProduk();
+
+  ionViewDidEnter() {
+    this.animService.animateItemsIn('.kartu-ringkasan');
   }
 
+  private ringkasan(): void {
+    this.jumlahProduk = this.produk.getJumlahProduk();
+    this.jumlahTransaksiHariIni = this.transaksi.getJumlahHariIni();
+    this.totalPenjualanHariIni = this.transaksi.getTotalHariIni();
+    this.produkTerlaris = this.transaksi.getProdukTerlaris();
+  }
+
+  formatRupiah(nilai: number): string {
+    return 'Rp ' + nilai.toLocaleString('id-ID');
+  }
 }

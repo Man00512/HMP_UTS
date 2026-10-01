@@ -3,29 +3,63 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>dashboard</ion-title>
+    <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-card>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card class="kartu-ringkasan">
     <ion-card-header>
-      <ion-card-title>Ringkasan Hari Ini</ion-card-title>
+      <ion-card-subtitle>Ringkasan Hari Ini</ion-card-subtitle>
+      <ion-card-title>Toko Makmur Jaya</ion-card-title>
     </ion-card-header>
+  </ion-card>
+
+  <ion-card class="kartu-ringkasan">
     <ion-card-content>
-      <ion-list lines="none">
-        <ion-item>
-          <ion-icon name="pricetags-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Jumlah Produk</ion-label>
-          <ion-note slot="end">{{ jumlahProduk }} item</ion-note>
-        </ion-item>
-      </ion-list>
+      <ion-item lines="none">
+        <ion-icon name="cube-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Jumlah Produk</p>
+          <h2>{{ jumlahProduk }} item</h2>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="kartu-ringkasan">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="receipt-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Total Transaksi Hari Ini</p>
+          <h2>{{ jumlahTransaksiHariIni }} transaksi</h2>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="kartu-ringkasan">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="cash-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <p>Total Penjualan Hari Ini</p>
+          <h2>{{ formatRupiah(totalPenjualanHariIni) }}</h2>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="kartu-ringkasan">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="trophy-outline" slot="start" color="secondary"></ion-icon>
+        <ion-label>
+          <p>Produk Terlaris</p>
+          <h2>{{ produkTerlaris }}</h2>
+        </ion-label>
+      </ion-item>
     </ion-card-content>
   </ion-card>
 </ion-content>

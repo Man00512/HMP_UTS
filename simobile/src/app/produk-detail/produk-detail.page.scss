@@ -1,6 +1,3 @@
-$hijau-toko: #2e7d32;
-$kuning-toko: #f9a825;
-
 .kartu-detail {
   border-radius: 16px;
   overflow: hidden;
@@ -11,18 +8,22 @@ $kuning-toko: #f9a825;
   width: 100%;
   height: 220px;
   object-fit: cover;
-  background: #f0f0f0;
+  background: #e8e8e8;
 }
 
 .chip-kategori {
-  --background: #{$kuning-toko};
-  --color: #ffffff;
+  --background: var(--ion-color-secondary);
+  --color: #000000;
   font-weight: 600;
 }
 
 .tombol-keranjang {
   margin-top: 16px;
-  --background: #{$hijau-toko};
+  --border-radius: 10px;
+}
+
+.tombol-edit {
+  margin-top: 8px;
   --border-radius: 10px;
 }
 

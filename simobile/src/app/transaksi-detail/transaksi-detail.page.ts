@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Transaksi, TransaksiData } from '../transaksi';
 
 @Component({
   selector: 'app-transaksi-detail',
@@ -7,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class TransaksiDetailPage implements OnInit {
+  transaksi: TransaksiData | undefined;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private transaksiService: Transaksi) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.transaksi = this.transaksiService.getById(+params['id']);
+    });
   }
 
+  formatRupiah(nilai: number): string {
+    return 'Rp ' + nilai.toLocaleString('id-ID');
+  }
+
+  formatTanggal(tanggal: Date): string {
+    return tanggal.toLocaleString('id-ID');
+  }
 }

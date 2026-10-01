@@ -3,14 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/transaksi"></ion-back-button>
     </ion-buttons>
-    <ion-title>transaksi-detail</ion-title>
+    <ion-title>Detail Transaksi</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">transaksi-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="kosong" *ngIf="!transaksi">
+    <ion-text color="medium">Transaksi tidak ditemukan</ion-text>
+  </div>
+
+  <ion-card *ngIf="transaksi">
+    <ion-card-header>
+      <ion-card-subtitle>{{ formatTanggal(transaksi.tanggal) }}</ion-card-subtitle>
+      <ion-card-title>Transaksi #{{ transaksi.id }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item *ngFor="let item of transaksi.items">
+          <ion-label>
+            <h3>{{ item.nama }}</h3>
+            <p>{{ formatRupiah(item.hargaJual) }} x {{ item.qty }}</p>
+          </ion-label>
+          <ion-text slot="end">{{ formatRupiah(item.subtotal) }}</ion-text>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label><b>Total</b></ion-label>
+          <ion-text slot="end" color="primary"><b>{{ formatRupiah(transaksi.total) }}</b></ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

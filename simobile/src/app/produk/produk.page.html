@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>produk</ion-title>
+    <ion-title>Produk</ion-title>
     <ion-buttons slot="end">
+      <ion-button routerLink="/produk-form">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button routerLink="/keranjang">
         <ion-icon name="cart-outline" slot="icon-only"></ion-icon>
         <ion-badge *ngIf="jumlahKeranjang > 0" color="danger" class="cart-badge">
@@ -16,28 +19,39 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">produk</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="area-cari">
+    <ion-input
+      label="Cari produk"
+      labelPlacement="floating"
+      fill="outline"
+      [clearInput]="true"
+      [(ngModel)]="kataKunci">
+    </ion-input>
+  </div>
+
+  <ion-segment [scrollable]="true" [(ngModel)]="kategoriDipilih">
+    <ion-segment-button *ngFor="let k of kategoriList" [value]="k">
+      <ion-label>{{ k }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="kosong" *ngIf="produkTampil.length === 0">
+    <ion-text color="medium">Produk tidak ditemukan</ion-text>
+  </div>
 
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="6" *ngFor="let produk of produkTampil">
         <ion-card button="true" [routerLink]="['/produk-detail', produk.id]" class="product-card">
-          <img src="{{ produk.gambar }}" alt="{{ produk.nama }}" class="product-card__image" />
-
+          <img [src]="produk.gambar || gambarDefault" [alt]="produk.nama" class="product-card__image" />
           <ion-card-header>
             <ion-card-subtitle>{{ produk.kategori }}</ion-card-subtitle>
             <ion-card-title>{{ produk.nama }}</ion-card-title>
           </ion-card-header>
-
           <ion-card-content>
             <div class="product-card__footer">
               <span class="product-card__harga">{{ formatRupiah(produk.hargaJual) }}</span>
-
-              <ion-badge slot="end" [color]="produk.stok === 0 ? 'danger' : 'medium'">
+              <ion-badge [color]="produk.stok === 0 ? 'danger' : 'medium'">
                 {{ produk.stok === 0 ? 'Stok Habis' : 'Stok: ' + produk.stok }}
               </ion-badge>
             </div>

@@ -27,34 +27,27 @@ export class TentangPage implements OnInit {
     this.fadeInLogo();
     this.putarLogo();
   }
-
-  // animasi #1: logo fade in (contoh dari materi Week 7)
-  fadeInLogo() {
+fadeInLogo() {
     const elLogo = document.querySelector('#logoAplikasi') as HTMLElement;
+    if (!elLogo) return;
     const animation = this.animationCtrl
       .create()
       .addElement(elLogo)
-      .duration(5000)
-      .iterations(3)
+      .duration(800)
       .keyframes([
         { offset: 0, opacity: '0' },
-        { offset: 0.2, opacity: '0.2' },
-        { offset: 0.4, opacity: '0.4' },
-        { offset: 0.6, opacity: '0.6' },
-        { offset: 0.8, opacity: '0.8' },
         { offset: 1, opacity: '1' },
       ]);
     animation.play();
   }
 
-  // animasi #2: logo berputar (contoh dari materi Week 7)
-  putarLogo() {
+putarLogo() {
     const elLogo = document.querySelector('#logoAplikasi') as HTMLElement;
+    if (!elLogo) return;
     const animation = this.animationCtrl
       .create()
       .addElement(elLogo)
-      .duration(5000)
-      .iterations(3)
+      .duration(800)
       .keyframes([
         { offset: 0, transform: 'rotate(0deg)' },
         { offset: 1, transform: 'rotate(360deg)' },

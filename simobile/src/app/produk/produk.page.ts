@@ -10,21 +10,39 @@ import { Keranjang } from '../keranjang';
 })
 export class ProdukPage implements OnInit {
   listProduk: ProdukItem[] = [];
+  kategoriList: string[] = [];
+  kataKunci = '';
+  kategoriDipilih = 'Semua';
+  gambarDefault = 'assets/produk-kosong.png';
 
   constructor(private produk: Produk, private keranjang: Keranjang) { }
 
   ngOnInit() {
+    this.muat();
+  }
+
+  ionViewWillEnter() {
+    this.muat();
+  }
+
+  private muat(): void {
     this.listProduk = this.produk.getSemuaProduk();
+    this.kategoriList = ['Semua', ...this.produk.getKategori()];
   }
 
   get produkTampil(): ProdukItem[] {
-    return this.listProduk;
+    const kata = this.kataKunci.trim().toLowerCase();
+    return this.listProduk.filter(p =>
+      (this.kategoriDipilih === 'Semua' || p.kategori === this.kategoriDipilih) &&
+      p.nama.toLowerCase().includes(kata)
+    );
   }
+
   get jumlahKeranjang(): number {
     return this.keranjang.getTotalItem();
   }
+
   formatRupiah(nilai: number): string {
     return 'Rp ' + nilai.toLocaleString('id-ID');
   }
-
 }

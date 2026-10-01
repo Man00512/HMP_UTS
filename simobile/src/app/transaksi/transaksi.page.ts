@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Transaksi, TransaksiData } from '../transaksi';
 
 @Component({
   selector: 'app-transaksi',
@@ -6,11 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transaksi.page.scss'],
   standalone: false,
 })
-export class TransaksiPage implements OnInit {
+export class TransaksiPage {
+  daftar: TransaksiData[] = [];
 
-  constructor() { }
+  constructor(private transaksiService: Transaksi) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.daftar = this.transaksiService.getSemua();
   }
 
+  formatRupiah(nilai: number): string {
+    return 'Rp ' + nilai.toLocaleString('id-ID');
+  }
+
+  formatTanggal(tanggal: Date): string {
+    return tanggal.toLocaleString('id-ID');
+  }
 }

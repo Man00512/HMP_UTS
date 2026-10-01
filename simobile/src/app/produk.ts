@@ -4,7 +4,7 @@ export interface ProdukItem {
   id: number;
   nama: string;
   kategori: string;
-  gambar: string;      
+  gambar: string;
   hargaBeli: number;
   hargaJual: number;
   stok: number;
@@ -14,107 +14,20 @@ export interface ProdukItem {
   providedIn: 'root',
 })
 export class Produk {
+  kategoriTersedia: string[] = ['Sembako', 'Minuman', 'Makanan Ringan', 'Kebersihan', 'Bumbu Dapur'];
 
   daftarProduk: ProdukItem[] = [
-    {
-      id: 1,
-      nama: 'Beras Pandan Wangi 5kg',
-      kategori: 'Sembako',
-      gambar: 'https://tse1.mm.bing.net/th/id/OIP.y1wMIva9R7CUe_G9MJE5kgHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-      hargaBeli: 62000,
-      hargaJual: 68000,
-      stok: 25,
-    },
-    {
-      id: 2,
-      nama: 'Minyak Goreng Bimoli 2L',
-      kategori: 'Sembako',
-      gambar: 'https://tse3.mm.bing.net/th/id/OIP.QE46gj4MRLAKI1yB4hDjfQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-      hargaBeli: 32000,
-      hargaJual: 36000,
-      stok: 40,
-    },
-    {
-      id: 3,
-      nama: 'Gula Pasir Gulaku 1kg',
-      kategori: 'Sembako',
-      gambar: '',
-      hargaBeli: 13000,
-      hargaJual: 15000,
-      stok: 3,
-    },
-    {
-      id: 4,
-      nama: 'Teh Botol Sosro 450ml',
-      kategori: 'Minuman',
-      gambar: '',
-      hargaBeli: 3500,
-      hargaJual: 4500,
-      stok: 60,
-    },
-    {
-      id: 5,
-      nama: 'Kopi Kapal Api Sachet',
-      kategori: 'Minuman',
-      gambar: '',
-      hargaBeli: 1000,
-      hargaJual: 1500,
-      stok: 0, 
-    },
-    {
-      id: 6,
-      nama: 'Indomie Goreng',
-      kategori: 'Makanan Ringan',
-      gambar: '',
-      hargaBeli: 2800,
-      hargaJual: 3200,
-      stok: 100,
-    },
-    {
-      id: 7,
-      nama: 'Chitato Sapi Panggang 68g',
-      kategori: 'Makanan Ringan',
-      gambar: '', 
-      hargaBeli: 8000,
-      hargaJual: 10000,
-      stok: 15,
-    },
-    {
-      id: 8,
-      nama: 'Sabun Mandi Lifebuoy',
-      kategori: 'Kebersihan',
-      gambar: '',
-      hargaBeli: 3000,
-      hargaJual: 4000,
-      stok: 30,
-    },
-    {
-      id: 9,
-      nama: 'Rinso Anti Noda 800g',
-      kategori: 'Kebersihan',
-      gambar: '',
-      hargaBeli: 14000,
-      hargaJual: 17000,
-      stok: 0,
-    },
-    {
-      id: 10,
-      nama: 'Kecap Manis ABC 220ml',
-      kategori: 'Bumbu Dapur',
-      gambar: '',
-      hargaBeli: 8000,
-      hargaJual: 10000,
-      stok: 20,
-    },
-    {
-      id: 11,
-      nama: 'Royco Ayam',
-      kategori: 'Bumbu Dapur',
-      gambar: '',
-      hargaBeli: 1500,
-      hargaJual: 2000,
-      stok: 50,
-    },
+    { id: 1, nama: 'Beras Pandan Wangi 5kg', kategori: 'Sembako', gambar: '', hargaBeli: 62000, hargaJual: 68000, stok: 25 },
+    { id: 2, nama: 'Minyak Goreng Bimoli 2L', kategori: 'Sembako', gambar: '', hargaBeli: 32000, hargaJual: 36000, stok: 40 },
+    { id: 3, nama: 'Gula Pasir Gulaku 1kg', kategori: 'Sembako', gambar: '', hargaBeli: 13000, hargaJual: 15000, stok: 3 },
+    { id: 4, nama: 'Teh Botol Sosro 450ml', kategori: 'Minuman', gambar: '', hargaBeli: 3500, hargaJual: 4500, stok: 60 },
+    { id: 5, nama: 'Kopi Kapal Api Sachet', kategori: 'Minuman', gambar: '', hargaBeli: 1000, hargaJual: 1500, stok: 0 },
+    { id: 6, nama: 'Indomie Goreng', kategori: 'Makanan Ringan', gambar: '', hargaBeli: 2800, hargaJual: 3200, stok: 100 },
+    { id: 7, nama: 'Chitato Sapi Panggang 68g', kategori: 'Makanan Ringan', gambar: '', hargaBeli: 8000, hargaJual: 10000, stok: 15 },
+    { id: 8, nama: 'Sabun Mandi Lifebuoy', kategori: 'Kebersihan', gambar: '', hargaBeli: 3000, hargaJual: 4000, stok: 30 },
+    { id: 9, nama: 'Rinso Anti Noda 800g', kategori: 'Kebersihan', gambar: '', hargaBeli: 14000, hargaJual: 17000, stok: 0 },
+    { id: 10, nama: 'Kecap Manis ABC 220ml', kategori: 'Bumbu Dapur', gambar: '', hargaBeli: 8000, hargaJual: 10000, stok: 20 },
+    { id: 11, nama: 'Royco Ayam', kategori: 'Bumbu Dapur', gambar: '', hargaBeli: 1500, hargaJual: 2000, stok: 50 },
   ];
 
   getSemuaProduk(): ProdukItem[] {
@@ -127,5 +40,32 @@ export class Produk {
 
   getJumlahProduk(): number {
     return this.daftarProduk.length;
+  }
+
+  getKategori(): string[] {
+    return this.kategoriTersedia;
+  }
+
+  tambahProduk(data: Omit<ProdukItem, 'id'>): ProdukItem {
+    const idBaru = this.daftarProduk.length > 0
+      ? Math.max(...this.daftarProduk.map(p => p.id)) + 1
+      : 1;
+    const baru: ProdukItem = { id: idBaru, ...data };
+    this.daftarProduk.push(baru);
+    return baru;
+  }
+
+  updateProduk(id: number, data: Omit<ProdukItem, 'id'>): void {
+    const produk = this.getProdukById(id);
+    if (produk) {
+      Object.assign(produk, data);
+    }
+  }
+
+  kurangiStok(id: number, jumlah: number): void {
+    const produk = this.getProdukById(id);
+    if (produk) {
+      produk.stok = Math.max(0, produk.stok - jumlah);
+    }
   }
 }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Keranjang } from './keranjang';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,10 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private router: Router, private keranjang: Keranjang) { }
+
+  logout() {
+    this.keranjang.kosongkan();
+    this.router.navigate(['/dashboard']);
+  }
 }

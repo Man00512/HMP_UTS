@@ -14,8 +14,7 @@ export class ProdukDetailPage implements OnInit {
 
   produkId = 0;
   produk: ProdukItem | undefined;
-  gambarDefault = 'assets/produk-kosong.png'; // fallback kalau foto produk belum ada
-
+  gambarDefault = 'assets/produk-kosong.png'; 
   constructor(
     private route: ActivatedRoute,
     private produkService: Produk,
@@ -25,7 +24,7 @@ export class ProdukDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // ambil :id dari route, contoh path 'produk-detail/:id'
+    
     this.route.params.subscribe(params => {
       this.produkId = +params['id'];
       this.produk = this.produkService.getProdukById(this.produkId);
@@ -36,7 +35,7 @@ export class ProdukDetailPage implements OnInit {
     this.munculDariBawah();
   }
 
-  // animasi #1: kartu produk muncul dari bawah + fade in saat halaman dibuka
+  
   munculDariBawah() {
     const kartuElement = document.querySelector('#kartuProduk') as HTMLElement;
     if (!kartuElement) return;
@@ -52,7 +51,6 @@ export class ProdukDetailPage implements OnInit {
     animation.play();
   }
 
-  // animasi #2: tombol "berdenyut" sebentar tiap kali produk berhasil ditambahkan ke keranjang
   animasiTombol() {
     const tombolElement = document.querySelector('#tombolKeranjang') as HTMLElement;
     if (!tombolElement) return;
@@ -74,16 +72,19 @@ export class ProdukDetailPage implements OnInit {
     return this.produk.hargaJual - this.produk.hargaBeli;
   }
 
-  async tambahKeKeranjang() {
-    if (!this.produk || this.produk.stok === 0) return; // jaga-jaga walau tombol sudah disabled
-    this.keranjangService.tambahKeKeranjang(this.produk);
-    this.animasiTombol();
-
+   async tambahKeKeranjang() {
+    if (!this.produk || this.produk.stok === 0) return;
+    const berhasil = this.keranjangService.tambahKeKeranjang(this.produk);
+    if (berhasil) {
+      this.animasiTombol();
+    }
     const toast = await this.toastCtrl.create({
-      message: this.produk.nama + ' ditambahkan ke keranjang',
+      message: berhasil
+        ? this.produk.nama + ' ditambahkan ke keranjang'
+        : 'Jumlah di keranjang sudah mencapai stok',
       duration: 1500,
-      color: 'success',
-      position: 'bottom',
+      color: berhasil ? 'success' : 'warning',
+      position: 'top',
     });
     toast.present();
   }
