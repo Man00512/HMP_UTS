@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { Produk } from '../produk';
 import { Transaksi } from '../transaksi';
 import { Animation } from '../animation';
@@ -9,35 +11,43 @@ import { Animation } from '../animation';
   styleUrls: ['./dashboard.page.scss'],
   standalone: false,
 })
-export class DashboardPage implements OnInit {
-  jumlahProduk = 0;
-  jumlahTransaksiHariIni = 0;
-  totalPenjualanHariIni = 0;
-  produkTerlaris = '-';
-
+export class DashboardPage {
   constructor(
     private produk: Produk,
     private transaksi: Transaksi,
-    private animService: Animation
-  ) { }
+    private animService: Animation,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
 
-  ngOnInit() {
-    this.ringkasan();
+  get jumlahProduk(): number {
+    return this.produk.getJumlahProduk();
+  }
+
+  get jumlahTransaksiHariIni(): number {
+    return this.transaksi.getJumlahHariIni();
+  }
+
+  get totalPenjualanHariIni(): number {
+    return this.transaksi.getTotalHariIni();
+  }
+
+  get produkTerlaris(): string {
+    return this.transaksi.getProdukTerlaris();
   }
 
   ionViewWillEnter() {
-    this.ringkasan();
+    this.cdr.detectChanges();
   }
 
   ionViewDidEnter() {
     this.animService.animateItemsIn('.kartu-ringkasan');
-  }
-
-  private ringkasan(): void {
-    this.jumlahProduk = this.produk.getJumlahProduk();
-    this.jumlahTransaksiHariIni = this.transaksi.getJumlahHariIni();
-    this.totalPenjualanHariIni = this.transaksi.getTotalHariIni();
-    this.produkTerlaris = this.transaksi.getProdukTerlaris();
   }
 
   formatRupiah(nilai: number): string {

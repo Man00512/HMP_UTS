@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { Transaksi, TransaksiData } from '../transaksi';
 
 @Component({
@@ -8,12 +10,24 @@ import { Transaksi, TransaksiData } from '../transaksi';
   standalone: false,
 })
 export class TransaksiPage {
-  daftar: TransaksiData[] = [];
+  constructor(
+    private transaksiService: Transaksi,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
 
-  constructor(private transaksiService: Transaksi) { }
+  get daftar(): TransaksiData[] {
+    return this.transaksiService.getSemua();
+  }
 
   ionViewWillEnter() {
-    this.daftar = this.transaksiService.getSemua();
+    this.cdr.detectChanges();
   }
 
   formatRupiah(nilai: number): string {
