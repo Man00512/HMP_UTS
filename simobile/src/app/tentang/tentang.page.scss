@@ -13,10 +13,19 @@ $kuning-toko: #f9a825;
   border: 3px solid $kuning-toko;
 }
 
+#bingkai-logo {
+  position: relative;
+  z-index: 2;
+}
+
 .kartu-naik {
-  margin-top: -40px;
-  z-index: -1;
-  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+  margin-top: -20px;
+}
+
+.kartu-naik ion-card-content {
+  padding-top: 30px;
 }
 
 .tengah {

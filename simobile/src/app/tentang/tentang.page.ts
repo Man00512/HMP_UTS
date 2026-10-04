@@ -10,13 +10,7 @@ import { AnimationController } from '@ionic/angular';
 export class TentangPage implements OnInit {
 
   namaAplikasi = 'SIMOBILE';
-  versiAplikasi = '1.0.0 (UTS)';
-  namaKelompok = 'Kelompok [isi nama kelompok]';
-  anggotaKelompok = [
-    '[NRP - Nama Anggota 1]',
-    '[NRP - Nama Anggota 2]',
-    '[NRP - Nama Anggota 3]',
-  ];
+  versiAplikasi = '1.0.0';
 
   constructor(private animationCtrl: AnimationController) { }
 

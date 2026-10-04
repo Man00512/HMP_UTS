@@ -1,8 +1,12 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
     <ion-title>Tentang Aplikasi</ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -13,7 +17,7 @@
 
   <div id="bingkai-logo">
     <ion-avatar id="logoAplikasi" class="logo-besar">
-      <ion-img src="assets/icon/favicon.png"></ion-img>
+      <ion-img src="https://tse2.mm.bing.net/th/id/OIP.V1OWznIDZoBtbzq1XqXhRQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"></ion-img>
     </ion-avatar>
   </div>
 
@@ -25,22 +29,34 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>Dikembangkan oleh</ion-card-subtitle>
-      <ion-card-title>{{ namaKelompok }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list lines="none">
-        <ion-item *ngFor="let anggota of anggotaKelompok">
-          <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>{{ anggota }}</ion-label>
-        </ion-item>
-      </ion-list>
-      <ion-text color="medium">
-        <p>Dibangun dengan Ionic Angular &mdash; Informatics Engineering, Universitas Surabaya</p>
-      </ion-text>
-    </ion-card-content>
-  </ion-card>
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Dikembangkan oleh</ion-card-subtitle>
+    <ion-card-title>Kelompok 3</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Oey Matthew Farrel Wiyono (160424031)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Artchie Leonheart Constantianus (160424132)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Aston Christianto (160424095)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Imanuel Ferdinand Sormin (160424120)</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-text color="medium">
+      <p>Dibangun dengan Ionic Angular &mdash; Informatics Engineering, Universitas Surabaya</p>
+    </ion-text>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>
