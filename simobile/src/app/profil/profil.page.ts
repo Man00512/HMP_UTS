@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Animation } from '../animation';
+import { AnimationController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profil',
@@ -15,20 +15,40 @@ export class ProfilPage implements OnInit {
   telepon = '0812-3456-7890';
   fotoProfil = 'https://i.pravatar.cc/300?img=47';
 
-  constructor(private animService: Animation) { }
+  constructor(private animationCtrl: AnimationController) { }
 
   ngOnInit() {
   }
 
+  fadeInAvatar() {
+    const avatarElement = document.querySelector('#avatarProfil') as HTMLElement;
+    const animation = this.animationCtrl
+      .create()
+      .addElement(avatarElement)
+      .duration(800)
+      .keyframes([
+        { offset: 0, opacity: '0' },
+        { offset: 1, opacity: '1' },
+      ]);
+    animation.play();
+  }
+
+  growShrinkAvatar() {
+    const avatarElement = document.querySelector('#bingkaiAvatar') as HTMLElement;
+    const animation = this.animationCtrl
+      .create()
+      .addElement(avatarElement)
+      .duration(1000)
+      .keyframes([
+        { offset: 0, transform: 'scale(1)' },
+        { offset: 0.5, transform: 'scale(1.15)' },
+        { offset: 1, transform: 'scale(1)' },
+      ]);
+    animation.play();
+  }
+
   ionViewDidEnter() {
-    this.munculkanAvatar();
-  }
-
-  munculkanAvatar() {
-    this.animService.animateItemsIn('#avatarProfil');
-  }
-
-  onEditClick(event: Event) {
-    this.animService.animatePop(event);
+    this.fadeInAvatar();
+    this.growShrinkAvatar();
   }
 }

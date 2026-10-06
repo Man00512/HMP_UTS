@@ -15,12 +15,11 @@ export class PengaturanPage implements OnInit {
     this.gelap = document.body.classList.contains('dark');
   }
 
-  ionViewWillEnter() {
-    this.gelap = document.body.classList.contains('dark');
-  }
-
-  toggleDarkMode(event: any) {
-    this.gelap = event.detail.checked;
-    document.body.classList.toggle('dark', this.gelap);
+  toggleDarkMode() {
+    if (this.gelap) {
+      document.body.classList.add('dark');      // tambah class "dark" -> warna gelap
+    } else {
+      document.body.classList.remove('dark');   // hapus class "dark" -> warna terang
+    }
   }
 }

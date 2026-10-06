@@ -7,7 +7,7 @@ export interface TransaksiItem {
   nama: string;
   qty: number;
   hargaJual: number;
-  subtotal: number;
+  subtotal: number;    
 }
 
 export interface TransaksiData {
@@ -22,28 +22,36 @@ export interface TransaksiData {
 })
 export class Transaksi {
   daftarTransaksi: TransaksiData[] = [];
-  private idBerikut = 1;
+  idBerikut = 1;
 
   constructor(private keranjang: Keranjang, private produk: Produk) { }
 
   konfirmasi(): TransaksiData | undefined {
     const items = this.keranjang.getItems();
-    if (items.length === 0) {
+    if (items.length == 0) {
       return undefined;
     }
+
+    const barisStruk: TransaksiItem[] = [];
+    for (let i = 0; i < items.length; i++) {
+      barisStruk.push({
+        produkId: items[i].produk.id,
+        nama: items[i].produk.nama,
+        qty: items[i].qty,
+        hargaJual: items[i].produk.hargaJual,
+        subtotal: items[i].produk.hargaJual * items[i].qty,
+      });
+      this.produk.kurangiStok(items[i].produk.id, items[i].qty);
+    }
+
     const data: TransaksiData = {
-      id: this.idBerikut++,
+      id: this.idBerikut,
       tanggal: new Date(),
-      items: items.map(i => ({
-        produkId: i.produk.id,
-        nama: i.produk.nama,
-        qty: i.qty,
-        hargaJual: i.produk.hargaJual,
-        subtotal: i.produk.hargaJual * i.qty,
-      })),
+      items: barisStruk,
       total: this.keranjang.getTotalHarga(),
     };
-    items.forEach(i => this.produk.kurangiStok(i.produk.id, i.qty));
+    this.idBerikut++;
+
     this.daftarTransaksi.unshift(data);
     this.keranjang.kosongkan();
     return data;
@@ -54,12 +62,23 @@ export class Transaksi {
   }
 
   getById(id: number): TransaksiData | undefined {
-    return this.daftarTransaksi.find(t => t.id === id);
+    for (let i = 0; i < this.daftarTransaksi.length; i++) {
+      if (this.daftarTransaksi[i].id == id) {
+        return this.daftarTransaksi[i];
+      }
+    }
+    return undefined;
   }
 
-  private getHariIni(): TransaksiData[] {
+  getHariIni(): TransaksiData[] {
     const hariIni = new Date().toDateString();
-    return this.daftarTransaksi.filter(t => t.tanggal.toDateString() === hariIni);
+    const hasil: TransaksiData[] = [];
+    for (let i = 0; i < this.daftarTransaksi.length; i++) {
+      if (this.daftarTransaksi[i].tanggal.toDateString() == hariIni) {
+        hasil.push(this.daftarTransaksi[i]);
+      }
+    }
+    return hasil;
   }
 
   getJumlahHariIni(): number {
@@ -67,24 +86,40 @@ export class Transaksi {
   }
 
   getTotalHariIni(): number {
-    return this.getHariIni().reduce((total, t) => total + t.total, 0);
+    const hariIni = this.getHariIni();
+    let total = 0;
+    for (let i = 0; i < hariIni.length; i++) {
+      total += hariIni[i].total;
+    }
+    return total;
   }
 
   getProdukTerlaris(): string {
-    const hitung: { [nama: string]: number } = {};
-    this.getHariIni().forEach(t => {
-      t.items.forEach(i => {
-        hitung[i.nama] = (hitung[i.nama] || 0) + i.qty;
-      });
-    });
+    const hariIni = this.getHariIni();
+    const namaProduk: string[] = [];
+    const jumlahTerjual: number[] = [];
+
+    for (let i = 0; i < hariIni.length; i++) {
+      for (let j = 0; j < hariIni[i].items.length; j++) {
+        const barang = hariIni[i].items[j];
+        const posisi = namaProduk.indexOf(barang.nama);   // -1 = belum pernah dicatat
+        if (posisi == -1) {
+          namaProduk.push(barang.nama);
+          jumlahTerjual.push(barang.qty);
+        } else {
+          jumlahTerjual[posisi] += barang.qty;
+        }
+      }
+    }
+
     let terlaris = '-';
     let terbanyak = 0;
-    Object.keys(hitung).forEach(nama => {
-      if (hitung[nama] > terbanyak) {
-        terbanyak = hitung[nama];
-        terlaris = nama;
+    for (let i = 0; i < namaProduk.length; i++) {
+      if (jumlahTerjual[i] > terbanyak) {
+        terbanyak = jumlahTerjual[i];
+        terlaris = namaProduk[i];
       }
-    });
+    }
     return terlaris;
   }
 }

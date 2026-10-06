@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnimationController, ToastController } from '@ionic/angular';
+import { AnimationController } from '@ionic/angular';
 import { Produk, ProdukItem } from '../produk';
 import { Keranjang } from '../keranjang';
 
@@ -12,30 +12,50 @@ import { Keranjang } from '../keranjang';
 })
 export class ProdukDetailPage implements OnInit {
 
-  produkId = 0;
-  produk: ProdukItem | undefined;
-  gambarDefault = 'assets/produk-kosong.png'; 
+  produkId = 0;                          
+  produk: ProdukItem | undefined;        
+  gambarDefault = 'assets/no-image.svg'; 
+  pesanAlert = '';                       
+  public alertButtons = ['OK'];          
+
   constructor(
     private route: ActivatedRoute,
     private produkService: Produk,
     private keranjangService: Keranjang,
-    private animationCtrl: AnimationController,
-    private toastCtrl: ToastController
+    private animationCtrl: AnimationController
   ) { }
 
   ngOnInit() {
-    
     this.route.params.subscribe(params => {
-      this.produkId = +params['id'];
+      this.produkId = Number(params['id']);
       this.produk = this.produkService.getProdukById(this.produkId);
     });
   }
 
-  ionViewDidEnter() {
-    this.munculDariBawah();
+  hitungKeuntungan(): number {
+    if (!this.produk) return 0;
+    return this.produk.hargaJual - this.produk.hargaBeli;
   }
 
-  
+  tambahKeKeranjang() {
+    if (!this.produk) return;
+    const berhasil = this.keranjangService.tambahKeKeranjang(this.produk);
+    if (berhasil) {
+      this.pesanAlert = this.produk.nama + ' ditambahkan ke keranjang';
+      this.animasiTombol();
+    } else {
+      this.pesanAlert = 'Jumlah di keranjang sudah mencapai stok';
+    }
+  }
+
+  gambarError(event: any) {
+    event.target.src = this.gambarDefault;
+  }
+
+  formatRupiah(nilai: number): string {
+    return 'Rp ' + nilai.toLocaleString('id-ID');
+  }
+
   munculDariBawah() {
     const kartuElement = document.querySelector('#kartuProduk') as HTMLElement;
     if (!kartuElement) return;
@@ -67,25 +87,7 @@ export class ProdukDetailPage implements OnInit {
     animation.play();
   }
 
-  hitungKeuntungan(): number {
-    if (!this.produk) return 0;
-    return this.produk.hargaJual - this.produk.hargaBeli;
-  }
-
-   async tambahKeKeranjang() {
-    if (!this.produk || this.produk.stok === 0) return;
-    const berhasil = this.keranjangService.tambahKeKeranjang(this.produk);
-    if (berhasil) {
-      this.animasiTombol();
-    }
-    const toast = await this.toastCtrl.create({
-      message: berhasil
-        ? this.produk.nama + ' ditambahkan ke keranjang'
-        : 'Jumlah di keranjang sudah mencapai stok',
-      duration: 1500,
-      color: berhasil ? 'success' : 'warning',
-      position: 'top',
-    });
-    toast.present();
+  ionViewDidEnter() {
+    this.munculDariBawah();
   }
 }

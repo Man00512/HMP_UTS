@@ -12,13 +12,24 @@ export interface KeranjangItem {
 export class Keranjang {
   items: KeranjangItem[] = [];
 
+  constructor() { }
+
+  cariIndex(id: number): number {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].produk.id == id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   tambahKeKeranjang(produk: ProdukItem): boolean {
-    const itemAda = this.items.find(i => i.produk.id === produk.id);
-    if (itemAda) {
-      if (itemAda.qty >= produk.stok) {
+    const index = this.cariIndex(produk.id);
+    if (index >= 0) {
+      if (this.items[index].qty >= produk.stok) {
         return false;
       }
-      itemAda.qty += 1;
+      this.items[index].qty++;
       return true;
     }
     if (produk.stok < 1) {
@@ -28,23 +39,25 @@ export class Keranjang {
     return true;
   }
 
-  kurangi(id: number): void {
-    const item = this.items.find(i => i.produk.id === id);
-    if (!item) {
-      return;
-    }
-    item.qty -= 1;
-    if (item.qty <= 0) {
-      this.hapus(id);
+  kurangi(id: number) {
+    const index = this.cariIndex(id);
+    if (index >= 0) {
+      this.items[index].qty--;
+      if (this.items[index].qty <= 0) {
+        this.hapus(id);
+      }
     }
   }
 
-  hapus(id: number): void {
-    this.items = this.items.filter(i => i.produk.id !== id);
+  hapus(id: number) {
+    const index = this.cariIndex(id);
+    if (index >= 0) {
+      this.items.splice(index, 1);
+    }
   }
 
-  kosongkan(): void {
-    this.items = [];
+  kosongkan() {
+    this.items.splice(0, this.items.length);
   }
 
   getItems(): KeranjangItem[] {
@@ -52,10 +65,18 @@ export class Keranjang {
   }
 
   getTotalItem(): number {
-    return this.items.reduce((total, i) => total + i.qty, 0);
+    let total = 0;
+    for (let i = 0; i < this.items.length; i++) {
+      total += this.items[i].qty;
+    }
+    return total;
   }
 
   getTotalHarga(): number {
-    return this.items.reduce((total, i) => total + (i.produk.hargaJual * i.qty), 0);
+    let total = 0;
+    for (let i = 0; i < this.items.length; i++) {
+      total += this.items[i].produk.hargaJual * this.items[i].qty;
+    }
+    return total;
   }
 }

@@ -6,6 +6,7 @@
     <ion-title>Detail Produk</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <div *ngIf="!produk" class="tidak-ditemukan">
@@ -14,11 +15,10 @@
 
   <ion-card id="kartuProduk" *ngIf="produk" class="kartu-detail">
 
-    <!-- property binding: kalau produk.gambar kosong, otomatis pakai gambarDefault -->
-    <img [src]="produk.gambar || gambarDefault" [alt]="produk.nama" class="gambar-produk">
+    <img [src]="produk.gambar || gambarDefault" [alt]="produk.nama" class="gambar-produk" (error)="gambarError($event)">
 
     <ion-card-header>
-      <ion-chip color="tertiary" class="chip-kategori">{{ produk.kategori }}</ion-chip>
+      <ion-chip class="chip-kategori">{{ produk.kategori }}</ion-chip>
       <ion-card-title>{{ produk.nama }}</ion-card-title>
     </ion-card-header>
 
@@ -26,37 +26,41 @@
       <ion-list lines="full">
         <ion-item>
           <ion-label>Stok Tersisa</ion-label>
-          <ion-badge slot="end"
-            [color]="produk.stok === 0 ? 'danger' : (produk.stok < 5 ? 'warning' : 'success')">
-            {{ produk.stok === 0 ? 'Habis' : produk.stok + ' pcs' }}
-          </ion-badge>
+          <ion-badge slot="end" color="danger" *ngIf="produk.stok == 0">Habis</ion-badge>
+          <ion-badge slot="end" color="warning" *ngIf="produk.stok > 0 && produk.stok < 5">{{ produk.stok }} pcs</ion-badge>
+          <ion-badge slot="end" color="success" *ngIf="produk.stok >= 5">{{ produk.stok }} pcs</ion-badge>
         </ion-item>
 
         <ion-item>
           <ion-label>Harga Beli</ion-label>
-          <ion-text slot="end">Rp {{ produk.hargaBeli | number:'1.0-0' }}</ion-text>
+          <ion-text slot="end">{{ formatRupiah(produk.hargaBeli) }}</ion-text>
         </ion-item>
 
         <ion-item>
           <ion-label>Harga Jual</ion-label>
-          <ion-text slot="end" color="primary"><b>Rp {{ produk.hargaJual | number:'1.0-0' }}</b></ion-text>
+          <ion-text slot="end" color="primary"><b>{{ formatRupiah(produk.hargaJual) }}</b></ion-text>
         </ion-item>
 
         <ion-item lines="none">
           <ion-label>Estimasi Untung / pcs</ion-label>
-          <ion-text slot="end" color="success">Rp {{ hitungKeuntungan() | number:'1.0-0' }}</ion-text>
+          <ion-text slot="end" color="success">{{ formatRupiah(hitungKeuntungan()) }}</ion-text>
         </ion-item>
       </ion-list>
 
-      <!-- property binding: disabled otomatis true kalau stok = 0 -->
-      <!-- event binding: (click) memanggil tambahKeKeranjang() -->
       <ion-button id="tombolKeranjang" expand="block" class="tombol-keranjang"
-        [disabled]="produk.stok === 0"
+        [disabled]="produk.stok == 0"
         (click)="tambahKeKeranjang()">
         <ion-icon name="cart-outline" slot="start"></ion-icon>
-        {{ produk.stok === 0 ? 'Stok Habis' : 'Tambah ke Keranjang' }}
+        Tambah ke Keranjang
       </ion-button>
-            <ion-button expand="block" fill="outline" class="tombol-edit" [routerLink]="['/produk-form', produk.id]">
+      <ion-alert
+        trigger="tombolKeranjang"
+        header="Keranjang"
+        [message]="pesanAlert"
+        [buttons]="alertButtons">
+      </ion-alert>
+
+      <ion-button expand="block" fill="outline" class="tombol-edit" routerLink="/produk-form/{{ produk.id }}">
         <ion-icon name="create-outline" slot="start"></ion-icon>
         Edit Produk
       </ion-button>

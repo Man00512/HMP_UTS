@@ -1,9 +1,7 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AnimationController } from '@ionic/angular';
 import { Produk } from '../produk';
 import { Transaksi } from '../transaksi';
-import { Animation } from '../animation';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,35 +9,50 @@ import { Animation } from '../animation';
   styleUrls: ['./dashboard.page.scss'],
   standalone: false,
 })
-export class DashboardPage {
+export class DashboardPage implements OnInit {
+
   constructor(
-    private produk: Produk,
-    private transaksi: Transaksi,
-    private animService: Animation,
-    private cdr: ChangeDetectorRef,
-    private router: Router
-  ) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.cdr.detectChanges();
-    });
+    private produkService: Produk,
+    private transaksiService: Transaksi,
+    private animationCtrl: AnimationController,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit() {
   }
 
-  get jumlahProduk(): number {
-    return this.produk.getJumlahProduk();
+  jumlahProduk(): number {
+    return this.produkService.getJumlahProduk();
   }
 
-  get jumlahTransaksiHariIni(): number {
-    return this.transaksi.getJumlahHariIni();
+  jumlahTransaksiHariIni(): number {
+    return this.transaksiService.getJumlahHariIni();
   }
 
-  get totalPenjualanHariIni(): number {
-    return this.transaksi.getTotalHariIni();
+  totalPenjualanHariIni(): number {
+    return this.transaksiService.getTotalHariIni();
   }
 
-  get produkTerlaris(): string {
-    return this.transaksi.getProdukTerlaris();
+  produkTerlaris(): string {
+    return this.transaksiService.getProdukTerlaris();
+  }
+
+  formatRupiah(nilai: number): string {
+    return 'Rp ' + nilai.toLocaleString('id-ID');
+  }
+
+  munculkanRingkasan() {
+    const elemen = document.querySelector('#ringkasan') as HTMLElement;
+    const animation = this.animationCtrl
+      .create()
+      .addElement(elemen)
+      .duration(600)
+      .easing('ease-out')
+      .keyframes([
+        { offset: 0, opacity: '0', transform: 'translateY(30px)' },
+        { offset: 1, opacity: '1', transform: 'translateY(0px)' },
+      ]);
+    animation.play();
   }
 
   ionViewWillEnter() {
@@ -47,10 +60,6 @@ export class DashboardPage {
   }
 
   ionViewDidEnter() {
-    this.animService.animateItemsIn('.kartu-ringkasan');
-  }
-
-  formatRupiah(nilai: number): string {
-    return 'Rp ' + nilai.toLocaleString('id-ID');
+    this.munculkanRingkasan();
   }
 }

@@ -15,7 +15,7 @@ export class TransaksiDetailPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.transaksi = this.transaksiService.getById(+params['id']);
+      this.transaksi = this.transaksiService.getById(Number(params['id']));
     });
   }
 

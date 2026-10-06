@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 export interface ProdukItem {
-  id: number;
-  nama: string;
-  kategori: string;
-  gambar: string;
-  hargaBeli: number;
-  hargaJual: number;
-  stok: number;
+  id: number;          
+  nama: string;        
+  kategori: string;    
+  gambar: string;      
+  hargaBeli: number;   
+  hargaJual: number;   
+  stok: number;       
 }
 
 @Injectable({
@@ -30,12 +30,19 @@ export class Produk {
     { id: 11, nama: 'Royco Ayam', kategori: 'Bumbu Dapur', gambar: 'https://th.bing.com/th/id/OIP.lvc4ozXE4hG2WXFCPMbJQwHaHa?w=209&h=209&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3', hargaBeli: 1500, hargaJual: 2000, stok: 50 },
   ];
 
+  constructor() { }
+
   getSemuaProduk(): ProdukItem[] {
     return this.daftarProduk;
   }
 
   getProdukById(id: number): ProdukItem | undefined {
-    return this.daftarProduk.find(p => p.id === id);
+    for (let i = 0; i < this.daftarProduk.length; i++) {
+      if (this.daftarProduk[i].id == id) {
+        return this.daftarProduk[i];   // ketemu -> kembalikan produknya
+      }
+    }
+    return undefined;                  // tidak ketemu
   }
 
   getJumlahProduk(): number {
@@ -46,26 +53,43 @@ export class Produk {
     return this.kategoriTersedia;
   }
 
-  tambahProduk(data: Omit<ProdukItem, 'id'>): ProdukItem {
-    const idBaru = this.daftarProduk.length > 0
-      ? Math.max(...this.daftarProduk.map(p => p.id)) + 1
-      : 1;
-    const baru: ProdukItem = { id: idBaru, ...data };
-    this.daftarProduk.push(baru);
-    return baru;
+  tambahProduk(p_nama: string, p_kategori: string, p_gambar: string, p_hargaBeli: number, p_hargaJual: number, p_stok: number) {
+    let idTerbesar = 0;
+    for (let i = 0; i < this.daftarProduk.length; i++) {
+      if (this.daftarProduk[i].id > idTerbesar) {
+        idTerbesar = this.daftarProduk[i].id;
+      }
+    }
+    this.daftarProduk.push({
+      id: idTerbesar + 1,
+      nama: p_nama,
+      kategori: p_kategori,
+      gambar: p_gambar,
+      hargaBeli: p_hargaBeli,
+      hargaJual: p_hargaJual,
+      stok: p_stok,
+    });
   }
 
-  updateProduk(id: number, data: Omit<ProdukItem, 'id'>): void {
+  updateProduk(id: number, p_nama: string, p_kategori: string, p_gambar: string, p_hargaBeli: number, p_hargaJual: number, p_stok: number) {
     const produk = this.getProdukById(id);
     if (produk) {
-      Object.assign(produk, data);
+      produk.nama = p_nama;
+      produk.kategori = p_kategori;
+      produk.gambar = p_gambar;
+      produk.hargaBeli = p_hargaBeli;
+      produk.hargaJual = p_hargaJual;
+      produk.stok = p_stok;
     }
   }
 
-  kurangiStok(id: number, jumlah: number): void {
+  kurangiStok(id: number, jumlah: number) {
     const produk = this.getProdukById(id);
     if (produk) {
-      produk.stok = Math.max(0, produk.stok - jumlah);
+      produk.stok = produk.stok - jumlah;
+      if (produk.stok < 0) {
+        produk.stok = 0;   // stok tidak boleh negatif
+      }
     }
   }
 }

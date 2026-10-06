@@ -1,21 +1,15 @@
-$hijau-toko: #2e7d32;
-$kuning-toko: #f9a825;
-
 #bingkai-logo {
   display: flex;
   justify-content: center;
   padding-top: 24px;
+  position: relative;
+  z-index: 2;
 }
 
 .logo-besar {
   width: 96px;
   height: 96px;
-  border: 3px solid $kuning-toko;
-}
-
-#bingkai-logo {
-  position: relative;
-  z-index: 2;
+  border: 3px solid var(--ion-color-secondary);
 }
 
 .kartu-naik {
@@ -30,9 +24,9 @@ $kuning-toko: #f9a825;
 
 .tengah {
   text-align: center;
+}
 
-  h1 {
-    color: $hijau-toko;
-    margin-bottom: 4px;
-  }
+.tengah h1 {
+  color: var(--ion-color-primary);
+  margin-bottom: 4px;
 }

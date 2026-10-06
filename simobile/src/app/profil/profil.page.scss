@@ -1,35 +1,26 @@
-$hijau-toko: #2e7d32;
-$kuning-toko: #f9a825;
-
 .bingkai-avatar {
   text-align: center;
   padding: 24px 16px 8px;
+}
+
+#bingkaiAvatar {
+  display: flex;
+  justify-content: center;
 }
 
 .avatar-besar {
   width: 110px;
   height: 110px;
   margin: 0 auto 12px;
-  border: 3px solid $kuning-toko;
+  border: 3px solid var(--ion-color-secondary);
 }
 
 .nama-pemilik {
   margin: 4px 0 0;
-  color: $hijau-toko;
+  color: var(--ion-color-primary);
 }
 
 .kartu-info {
   margin: 16px;
   border-radius: 14px;
-}
-
-.grup-tombol {
-  padding: 0 16px 24px;
-
-  ion-button {
-    margin-bottom: 10px;
-    --border-color: #{$hijau-toko};
-    --color: #{$hijau-toko};
-    --border-radius: 10px;
-  }
 }

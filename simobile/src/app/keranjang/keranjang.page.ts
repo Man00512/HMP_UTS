@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Keranjang, KeranjangItem } from '../keranjang';
 import { Transaksi } from '../transaksi';
@@ -9,18 +9,20 @@ import { Transaksi } from '../transaksi';
   styleUrls: ['./keranjang.page.scss'],
   standalone: false,
 })
-export class KeranjangPage {
+export class KeranjangPage implements OnInit {
+  items: KeranjangItem[] = [];
+
   constructor(
     private keranjangService: Keranjang,
     private transaksiService: Transaksi,
     private router: Router
   ) { }
 
-  get items(): KeranjangItem[] {
-    return this.keranjangService.getItems();
+  ngOnInit() {
+    this.items = this.keranjangService.getItems();
   }
 
-  get total(): number {
+  totalBelanja(): number {
     return this.keranjangService.getTotalHarga();
   }
 

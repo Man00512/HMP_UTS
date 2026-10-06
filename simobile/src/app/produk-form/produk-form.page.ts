@@ -10,18 +10,10 @@ import { Produk } from '../produk';
   standalone: false,
 })
 export class ProdukFormPage implements OnInit {
-  form: FormGroup;
-  kategoriList: string[] = [];
-  modeEdit = false;
-  idEdit = 0;
-
-  private label: { [nama: string]: string } = {
-    nama: 'Nama produk',
-    kategori: 'Kategori',
-    hargaBeli: 'Harga beli',
-    hargaJual: 'Harga jual',
-    stok: 'Stok',
-  };
+  form: FormGroup;                
+  kategoriList: string[] = [];    
+  modeEdit = false;               
+  idEdit = 0;                     
 
   constructor(
     private fb: FormBuilder,
@@ -32,9 +24,10 @@ export class ProdukFormPage implements OnInit {
     this.form = this.fb.group({
       nama: ['', [Validators.required, Validators.pattern(/\S/)]],
       kategori: ['', [Validators.required]],
-      gambar: [''],
+      gambar: [''],  
       hargaBeli: ['', [Validators.required, Validators.pattern(/^-?[0-9]+$/), Validators.min(1)]],
       hargaJual: ['', [Validators.required, Validators.pattern(/^-?[0-9]+$/), Validators.min(1)]],
+      // min(0) = stok tidak boleh negatif
       stok: ['0', [Validators.required, Validators.pattern(/^-?[0-9]+$/), Validators.min(0)]],
     });
   }
@@ -44,21 +37,14 @@ export class ProdukFormPage implements OnInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.modeEdit = true;
-        this.idEdit = +params['id'];
-      } else {
-        this.modeEdit = false;
-        this.idEdit = 0;
+        this.idEdit = Number(params['id']);
+        this.isiForm();
       }
-      this.isiForm();
     });
   }
 
-  ionViewWillEnter() {
-    this.isiForm();
-  }
-
-  private isiForm(): void {
-    const produk = this.modeEdit ? this.produkService.getProdukById(this.idEdit) : undefined;
+  isiForm() {
+    const produk = this.produkService.getProdukById(this.idEdit);
     if (produk) {
       this.form.patchValue({
         nama: produk.nama,
@@ -68,35 +54,28 @@ export class ProdukFormPage implements OnInit {
         hargaJual: String(produk.hargaJual),
         stok: String(produk.stok),
       });
-    } else {
-      this.form.reset({
-        nama: '',
-        kategori: '',
-        gambar: '',
-        hargaBeli: '',
-        hargaJual: '',
-        stok: '0',
-      });
     }
   }
 
-  pesanError(nama: string): string {
-    const kontrol = this.form.get(nama);
+  pesanError(nama: string, label: string): string {
+    const kontrol = this.form.get(nama);   
     if (!kontrol || !(kontrol.dirty || kontrol.touched)) {
       return '';
     }
     if (kontrol.hasError('required')) {
-      return this.label[nama] + ' wajib diisi';
+      return label + ' wajib diisi';
     }
     if (kontrol.hasError('pattern')) {
-      return nama === 'nama'
-        ? 'Nama produk tidak boleh hanya berisi spasi'
-        : this.label[nama] + ' harus berupa angka bulat';
+      if (nama == 'nama') {
+        return 'Nama produk tidak boleh hanya berisi spasi';
+      }
+      return label + ' harus berupa angka bulat';
     }
     if (kontrol.hasError('min')) {
-      return nama === 'stok'
-        ? 'Stok tidak boleh negatif'
-        : this.label[nama] + ' harus lebih dari 0';
+      if (nama == 'stok') {
+        return 'Stok tidak boleh negatif';
+      }
+      return label + ' harus lebih dari 0';
     }
     return '';
   }
@@ -107,18 +86,13 @@ export class ProdukFormPage implements OnInit {
       return;
     }
     const nilai = this.form.value;
-    const data = {
-      nama: String(nilai.nama).trim(),
-      kategori: nilai.kategori,
-      gambar: nilai.gambar || '',
-      hargaBeli: Number(nilai.hargaBeli),
-      hargaJual: Number(nilai.hargaJual),
-      stok: Number(nilai.stok),
-    };
+    const nama = String(nilai.nama).trim();
     if (this.modeEdit) {
-      this.produkService.updateProduk(this.idEdit, data);
+      this.produkService.updateProduk(this.idEdit, nama, nilai.kategori, nilai.gambar,
+        Number(nilai.hargaBeli), Number(nilai.hargaJual), Number(nilai.stok));
     } else {
-      this.produkService.tambahProduk(data);
+      this.produkService.tambahProduk(nama, nilai.kategori, nilai.gambar,
+        Number(nilai.hargaBeli), Number(nilai.hargaJual), Number(nilai.stok));
     }
     this.router.navigate(['/produk']);
   }

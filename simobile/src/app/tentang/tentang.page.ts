@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// ! AnimationController (PPT Week 7): import lalu inisialisasi di constructor
 import { AnimationController } from '@ionic/angular';
 
 @Component({
@@ -17,13 +18,8 @@ export class TentangPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewDidEnter() {
-    this.fadeInLogo();
-    this.putarLogo();
-  }
-fadeInLogo() {
+  fadeInLogo() {
     const elLogo = document.querySelector('#logoAplikasi') as HTMLElement;
-    if (!elLogo) return;
     const animation = this.animationCtrl
       .create()
       .addElement(elLogo)
@@ -35,9 +31,8 @@ fadeInLogo() {
     animation.play();
   }
 
-putarLogo() {
+  putarLogo() {
     const elLogo = document.querySelector('#logoAplikasi') as HTMLElement;
-    if (!elLogo) return;
     const animation = this.animationCtrl
       .create()
       .addElement(elLogo)
@@ -47,5 +42,10 @@ putarLogo() {
         { offset: 1, transform: 'rotate(360deg)' },
       ]);
     animation.play();
+  }
+
+  ionViewDidEnter() {
+    this.fadeInLogo();
+    this.putarLogo();
   }
 }

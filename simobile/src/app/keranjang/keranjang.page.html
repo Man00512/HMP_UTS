@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="kosong" *ngIf="items.length === 0">
+  <div class="kosong" *ngIf="items.length == 0">
     <ion-text color="medium">Keranjang masih kosong</ion-text>
   </div>
 
@@ -16,7 +16,7 @@
     <ion-item *ngFor="let item of items">
       <ion-label>
         <h3>{{ item.produk.nama }}</h3>
-        <p>{{ formatRupiah(item.produk.hargaJual) }} x {{ item.qty }} = {{ formatRupiah(item.produk.hargaJual * item.qty) }}</p>
+        <p>{{ item.produk.hargaJual | currency:'IDR' }} x {{ item.qty }} = {{ (item.produk.hargaJual * item.qty) | currency:'IDR' }}</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="kurang(item)">
@@ -36,7 +36,7 @@
     <ion-card-content>
       <ion-item lines="none">
         <ion-label>Total Belanja</ion-label>
-        <ion-text slot="end" color="primary"><b>{{ formatRupiah(total) }}</b></ion-text>
+        <ion-text slot="end" color="primary"><b>{{ formatRupiah(totalBelanja()) }}</b></ion-text>
       </ion-item>
       <ion-button expand="block" class="tombol-konfirmasi" (click)="konfirmasi()">
         Konfirmasi Transaksi
