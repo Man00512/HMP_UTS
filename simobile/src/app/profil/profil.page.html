@@ -11,7 +11,7 @@
   <div class="bingkai-avatar">
     <div id="bingkaiAvatar">
       <ion-avatar id="avatarProfil" class="avatar-besar">
-        <ion-img [src]="fotoProfil"></ion-img>
+        <ion-img [src]="fotoProfil" (ionError)="fotoProfil = 'assets/no-image.svg'"></ion-img>
       </ion-avatar>
     </div>
     <h2 class="nama-pemilik">{{ namaPemilik }}</h2>

@@ -10,6 +10,8 @@ module.exports = tseslint.config(
     processor: angular.processInlineTemplates,
     rules: {
       "@angular-eslint/prefer-standalone": "off",
+      // Materi Week 2 dan 6 memakai NgModule serta constructor injection.
+      "@angular-eslint/prefer-inject": "off",
       "@angular-eslint/component-class-suffix": [
         "error",
         { suffixes: ["Page", "Component"] },
@@ -27,6 +29,10 @@ module.exports = tseslint.config(
   {
     files: ["**/*.html"],
     extends: [...angular.configs.templateRecommended],
-    rules: {},
+    rules: {
+      // Materi Week 4 memakai *ngIf dan *ngFor, bukan @if dan @for.
+      "@angular-eslint/template/prefer-control-flow": "off",
+      "@angular-eslint/template/eqeqeq": "off",
+    },
   }
 );

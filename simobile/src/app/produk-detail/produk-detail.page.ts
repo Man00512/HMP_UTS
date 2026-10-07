@@ -52,8 +52,11 @@ export class ProdukDetailPage implements OnInit {
     }
   }
 
-  gambarError(event: any) {
-    event.target.src = this.gambarDefault;
+  gambarError(event: Event) {
+    const gambar = event.target as HTMLImageElement;
+    if (gambar.getAttribute('src') !== this.gambarDefault) {
+      gambar.src = this.gambarDefault;
+    }
   }
 
   formatRupiah(nilai: number): string {

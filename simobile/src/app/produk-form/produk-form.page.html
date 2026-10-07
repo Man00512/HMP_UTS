@@ -9,14 +9,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-list>
+  <ion-text color="danger" *ngIf="produkTidakDitemukan">Produk tidak ditemukan. Kembali ke daftar produk untuk memilih ulang.</ion-text>
+  <ion-list *ngIf="!produkTidakDitemukan">
 
     <ion-item>
       <ion-input
         label="Nama Produk"
         labelPlacement="stacked"
         placeholder="Masukkan nama produk"
-        [(ngModel)]="nama">
+        [(ngModel)]="nama" (ngModelChange)="validasiSaatInput()">
       </ion-input>
     </ion-item>
     <ion-note color="danger" class="pesan-error" *ngIf="errorNama">{{ errorNama }}</ion-note>
@@ -26,7 +27,7 @@
         label="Kategori"
         labelPlacement="stacked"
         placeholder="Pilih kategori"
-        [(ngModel)]="kategori">
+        [(ngModel)]="kategori" (ngModelChange)="validasiSaatInput()">
         <ion-select-option *ngFor="let k of kategoriList" [value]="k">{{ k }}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -48,7 +49,7 @@
         label="Harga Beli"
         labelPlacement="stacked"
         placeholder="Contoh: 5000"
-        [(ngModel)]="hargaBeli">
+        [(ngModel)]="hargaBeli" (ngModelChange)="validasiSaatInput()">
       </ion-input>
     </ion-item>
     <ion-note color="danger" class="pesan-error" *ngIf="errorHargaBeli">{{ errorHargaBeli }}</ion-note>
@@ -59,7 +60,7 @@
         label="Harga Jual"
         labelPlacement="stacked"
         placeholder="Contoh: 7000"
-        [(ngModel)]="hargaJual">
+        [(ngModel)]="hargaJual" (ngModelChange)="validasiSaatInput()">
       </ion-input>
     </ion-item>
     <ion-note color="danger" class="pesan-error" *ngIf="errorHargaJual">{{ errorHargaJual }}</ion-note>
@@ -69,14 +70,14 @@
         type="number"
         label="Stok"
         labelPlacement="stacked"
-        [(ngModel)]="stok">
+        [(ngModel)]="stok" (ngModelChange)="validasiSaatInput()">
       </ion-input>
     </ion-item>
     <ion-note color="danger" class="pesan-error" *ngIf="errorStok">{{ errorStok }}</ion-note>
 
   </ion-list>
 
-  <ion-button (click)="simpan()" expand="block" class="tombol-simpan">
+  <ion-button *ngIf="!produkTidakDitemukan" (click)="simpan()" expand="block" class="tombol-simpan">
     Simpan Produk
   </ion-button>
 </ion-content>

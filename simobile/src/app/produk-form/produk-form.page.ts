@@ -13,13 +13,16 @@ export class ProdukFormPage implements OnInit {
   nama: string = '';
   kategori: string = '';
   gambar: string = '';
-  hargaBeli: string = '';
-  hargaJual: string = '';
-  stok: string = '0';
+  // Input number Ionic mengirim number, atau null saat dikosongkan.
+  hargaBeli: number | string | null = '';
+  hargaJual: number | string | null = '';
+  stok: number | string | null = 0;
 
   kategoriList: string[] = [];
   modeEdit = false;
   idEdit = 0;
+  sudahDikirim = false;
+  produkTidakDitemukan = false;
 
   errorNama: string = '';
   errorKategori: string = '';
@@ -36,6 +39,7 @@ export class ProdukFormPage implements OnInit {
   ngOnInit() {
     this.kategoriList = this.produkService.getKategori();
     this.route.params.subscribe(params => {
+      this.resetForm();
       if (params['id']) {
         this.modeEdit = true;
         this.idEdit = Number(params['id']);
@@ -51,80 +55,70 @@ export class ProdukFormPage implements OnInit {
       this.nama = produk.nama;
       this.kategori = produk.kategori;
       this.gambar = produk.gambar;
-      this.hargaBeli = String(produk.hargaBeli);
-      this.hargaJual = String(produk.hargaJual);
-      this.stok = String(produk.stok);
+      this.hargaBeli = produk.hargaBeli;
+      this.hargaJual = produk.hargaJual;
+      this.stok = produk.stok;
+    } else {
+      this.produkTidakDitemukan = true;
     }
   }
 
 
+  resetForm() {
+    this.nama = '';
+    this.kategori = '';
+    this.gambar = '';
+    this.hargaBeli = '';
+    this.hargaJual = '';
+    this.stok = 0;
+    this.modeEdit = false;
+    this.idEdit = 0;
+    this.sudahDikirim = false;
+    this.produkTidakDitemukan = false;
+    this.errorNama = '';
+    this.errorKategori = '';
+    this.errorHargaBeli = '';
+    this.errorHargaJual = '';
+    this.errorStok = '';
+  }
+
+  validasiAngka(nilai: number | string | null, label: string, minimum: number): string {
+    if (nilai === null || String(nilai).trim() === '') {
+      return label + ' wajib diisi';
+    }
+    // RegEx mengikuti latihan validasi pada Week 4.
+    if (!/^-?[0-9]+$/.test(String(nilai))) {
+      return label + ' harus berupa angka bulat';
+    }
+    if (Number(nilai) < minimum) {
+      if (minimum === 0) return label + ' tidak boleh negatif';
+      return label + ' harus lebih dari 0';
+    }
+    return '';
+  }
+
   validasi(): boolean {
-    let valid = true;
+    this.errorNama = '';
+    if ((this.nama || '').trim() === '') this.errorNama = 'Nama produk wajib diisi';
+    this.errorKategori = '';
+    if (!this.kategori) this.errorKategori = 'Kategori wajib dipilih';
+    this.errorHargaBeli = this.validasiAngka(this.hargaBeli, 'Harga beli', 1);
+    this.errorHargaJual = this.validasiAngka(this.hargaJual, 'Harga jual', 1);
+    this.errorStok = this.validasiAngka(this.stok, 'Stok', 0);
+    return !this.errorNama && !this.errorKategori && !this.errorHargaBeli
+      && !this.errorHargaJual && !this.errorStok;
+  }
 
-
-    if (this.nama.trim() === '') {
-      this.errorNama = 'Nama produk wajib diisi';
-      valid = false;
-    } else {
-      this.errorNama = '';
-    }
-
-
-    if (this.kategori === '') {
-      this.errorKategori = 'Kategori wajib dipilih';
-      valid = false;
-    } else {
-      this.errorKategori = '';
-    }
-
-
-    const regexAngka = /^[0-9]+$/;
-    if (this.hargaBeli.trim() === '') {
-      this.errorHargaBeli = 'Harga beli wajib diisi';
-      valid = false;
-    } else if (!regexAngka.test(this.hargaBeli)) {
-      this.errorHargaBeli = 'Harga beli harus berupa angka bulat positif';
-      valid = false;
-    } else if (Number(this.hargaBeli) < 1) {
-      this.errorHargaBeli = 'Harga beli harus lebih dari 0';
-      valid = false;
-    } else {
-      this.errorHargaBeli = '';
-    }
-
-
-    if (this.hargaJual.trim() === '') {
-      this.errorHargaJual = 'Harga jual wajib diisi';
-      valid = false;
-    } else if (!regexAngka.test(this.hargaJual)) {
-      this.errorHargaJual = 'Harga jual harus berupa angka bulat positif';
-      valid = false;
-    } else if (Number(this.hargaJual) < 1) {
-      this.errorHargaJual = 'Harga jual harus lebih dari 0';
-      valid = false;
-    } else {
-      this.errorHargaJual = '';
-    }
-
-
-    if (this.stok.trim() === '') {
-      this.errorStok = 'Stok wajib diisi';
-      valid = false;
-    } else if (!regexAngka.test(this.stok)) {
-      this.errorStok = 'Stok harus berupa angka bulat positif';
-      valid = false;
-    } else if (Number(this.stok) < 0) {
-      this.errorStok = 'Stok tidak boleh negatif';
-      valid = false;
-    } else {
-      this.errorStok = '';
-    }
-
-    return valid;
+  validasiSaatInput() {
+    if (this.sudahDikirim) this.validasi();
   }
 
   simpan() {
-
+    this.sudahDikirim = true;
+    if (this.modeEdit && !this.produkService.getProdukById(this.idEdit)) {
+      this.produkTidakDitemukan = true;
+      return;
+    }
     if (!this.validasi()) {
       return;
     }
@@ -140,6 +134,7 @@ export class ProdukFormPage implements OnInit {
         Number(this.hargaBeli), Number(this.hargaJual), Number(this.stok)
       );
     }
+    this.resetForm();
     this.router.navigate(['/produk']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
 
 @Component({
@@ -7,15 +7,13 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['./tentang.page.scss'],
   standalone: false,
 })
-export class TentangPage implements OnInit {
+export class TentangPage {
 
   namaAplikasi = 'SIMOBILE';
   versiAplikasi = '1.0.0';
+  logo = 'https://tse2.mm.bing.net/th/id/OIP.V1OWznIDZoBtbzq1XqXhRQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
 
   constructor(private animationCtrl: AnimationController) { }
-
-  ngOnInit() {
-  }
 
   fadeInLogo() {
     const elLogo = document.querySelector('#logoAplikasi') as HTMLElement;

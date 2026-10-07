@@ -26,7 +26,26 @@ export class Transaksi {
 
   constructor(private keranjang: Keranjang, private produk: Produk) { }
 
+  validasiCheckout(): string {
+    const items = this.keranjang.getItems();
+    if (items.length === 0) return 'Keranjang masih kosong';
+    // Periksa semua barang sebelum mengubah stok atau riwayat transaksi.
+    for (let i = 0; i < items.length; i++) {
+      const barang = this.produk.getProdukById(items[i].produk.id);
+      if (!barang) return 'Produk tidak ditemukan. Periksa kembali keranjang.';
+      if (items[i].qty < 1 || items[i].qty % 1 !== 0) {
+        return 'Jumlah ' + barang.nama + ' harus berupa angka bulat lebih dari 0';
+      }
+      if (items[i].qty > barang.stok) {
+        return 'Stok ' + barang.nama + ' tersisa ' + barang.stok
+          + '. Kurangi jumlah atau hapus barang dari keranjang.';
+      }
+    }
+    return '';
+  }
+
   konfirmasi(): TransaksiData | undefined {
+    if (this.validasiCheckout() !== '') return undefined;
     const items = this.keranjang.getItems();
     if (items.length == 0) {
       return undefined;
@@ -52,13 +71,13 @@ export class Transaksi {
     };
     this.idBerikut++;
 
-    this.daftarTransaksi.unshift(data);
+    this.daftarTransaksi = [data].concat(this.daftarTransaksi);
     this.keranjang.kosongkan();
     return data;
   }
 
   getSemua(): TransaksiData[] {
-    return [...this.daftarTransaksi];
+    return this.daftarTransaksi.slice();
   }
 
   getById(id: number): TransaksiData | undefined {
@@ -71,10 +90,13 @@ export class Transaksi {
   }
 
   getHariIni(): TransaksiData[] {
-    const hariIni = new Date().toDateString();
+    const hariIni = new Date();
     const hasil: TransaksiData[] = [];
     for (let i = 0; i < this.daftarTransaksi.length; i++) {
-      if (this.daftarTransaksi[i].tanggal.toDateString() == hariIni) {
+      const tanggal = this.daftarTransaksi[i].tanggal;
+      if (tanggal.getDate() === hariIni.getDate()
+        && tanggal.getMonth() === hariIni.getMonth()
+        && tanggal.getFullYear() === hariIni.getFullYear()) {
         hasil.push(this.daftarTransaksi[i]);
       }
     }
@@ -97,13 +119,21 @@ export class Transaksi {
   getProdukTerlaris(): string {
     const hariIni = this.getHariIni();
     const namaProduk: string[] = [];
+    const idProduk: number[] = [];
     const jumlahTerjual: number[] = [];
 
     for (let i = 0; i < hariIni.length; i++) {
       for (let j = 0; j < hariIni[i].items.length; j++) {
         const barang = hariIni[i].items[j];
-        const posisi = namaProduk.indexOf(barang.nama);
+        let posisi = -1;
+        for (let k = 0; k < idProduk.length; k++) {
+          if (idProduk[k] === barang.produkId) {
+            posisi = k;
+            break;
+          }
+        }
         if (posisi == -1) {
+          idProduk.push(barang.produkId);
           namaProduk.push(barang.nama);
           jumlahTerjual.push(barang.qty);
         } else {

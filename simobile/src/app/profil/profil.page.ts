@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
 
 @Component({
@@ -7,7 +7,7 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['./profil.page.scss'],
   standalone: false,
 })
-export class ProfilPage implements OnInit {
+export class ProfilPage {
 
   namaToko = 'Toko Makmur Jaya';
   namaPemilik = 'Bu Marni';
@@ -16,9 +16,6 @@ export class ProfilPage implements OnInit {
   fotoProfil = 'https://i.pravatar.cc/300?img=47';
 
   constructor(private animationCtrl: AnimationController) { }
-
-  ngOnInit() {
-  }
 
   fadeInAvatar() {
     const avatarElement = document.querySelector('#avatarProfil') as HTMLElement;

@@ -11,7 +11,7 @@ import { Keranjang } from '../keranjang';
 export class ProdukPage implements OnInit {
   listProduk: ProdukItem[] = [];      
   kategoriList: string[] = [];        
-  kataKunci = '';                     
+  kataKunci: string | null = '';
   kategoriDipilih = 'Semua';          
   gambarDefault = 'assets/no-image.svg';
 
@@ -27,7 +27,7 @@ export class ProdukPage implements OnInit {
   }
 
   produkTampil(): ProdukItem[] {
-    const kata = this.kataKunci.toLowerCase();
+    const kata = (this.kataKunci || '').toLowerCase();
     const hasil: ProdukItem[] = [];
     for (let i = 0; i < this.listProduk.length; i++) {
       const p = this.listProduk[i];
@@ -44,8 +44,11 @@ export class ProdukPage implements OnInit {
     return this.keranjangService.getTotalItem();
   }
 
-  gambarError(event: any) {
-    event.target.src = this.gambarDefault;
+  gambarError(event: Event) {
+    const gambar = event.target as HTMLImageElement;
+    if (gambar.getAttribute('src') !== this.gambarDefault) {
+      gambar.src = this.gambarDefault;
+    }
   }
 
   formatRupiah(nilai: number): string {

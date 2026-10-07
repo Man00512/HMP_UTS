@@ -17,7 +17,7 @@
 
   <div id="bingkai-logo">
     <ion-avatar id="logoAplikasi" class="logo-besar">
-      <ion-img src="https://tse2.mm.bing.net/th/id/OIP.V1OWznIDZoBtbzq1XqXhRQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"></ion-img>
+      <ion-img [src]="logo" (ionError)="logo = 'assets/no-image.svg'"></ion-img>
     </ion-avatar>
   </div>
 

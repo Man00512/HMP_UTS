@@ -11,19 +11,18 @@ export class Animation {
   animateItemsIn(selector: string) {
     const items = document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
 
-    items.forEach((item, index) => {
+    for (let i = 0; i < items.length; i++) {
       const animation = this.animationCtrl
         .create()
-        .addElement(item)
+        .addElement(items[i])
         .duration(500)
-        .delay(index * 100)
         .easing('ease-out')
         .keyframes([
           { offset: 0, opacity: '0', transform: 'translateY(20px)' },
           { offset: 1, opacity: '1', transform: 'translateY(0px)' },
         ]);
       animation.play();
-    });
+    }
   }
 
   animatePop(event: Event) {

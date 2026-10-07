@@ -43,7 +43,7 @@
     <ion-row>
       <ion-col size="12" size-md="6" *ngFor="let produk of produkTampil()">
         <ion-card button="true" [routerLink]="['/produk-detail', produk.id]" class="product-card">
-          <img [src]="produk.gambar || gambarDefault" [alt]="produk.nama" class="product-card__image" />
+          <img [src]="produk.gambar || gambarDefault" [alt]="produk.nama" class="product-card__image" (error)="gambarError($event)" />
           <ion-card-header>
             <ion-card-subtitle>{{ produk.kategori }}</ion-card-subtitle>
             <ion-card-title>{{ produk.nama }}</ion-card-title>
@@ -51,9 +51,8 @@
           <ion-card-content>
             <div class="product-card__footer">
               <span class="product-card__harga">{{ formatRupiah(produk.hargaJual) }}</span>
-              <ion-badge [color]="produk.stok === 0 ? 'danger' : 'medium'">
-                {{ produk.stok === 0 ? 'Stok Habis' : 'Stok: ' + produk.stok }}
-              </ion-badge>
+              <ion-badge *ngIf="produk.stok === 0" color="danger">Stok Habis</ion-badge>
+              <ion-badge *ngIf="produk.stok > 0" color="medium">Stok: {{ produk.stok }}</ion-badge>
             </div>
           </ion-card-content>
         </ion-card>

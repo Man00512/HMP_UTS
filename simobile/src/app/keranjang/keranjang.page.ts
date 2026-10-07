@@ -11,6 +11,7 @@ import { Transaksi } from '../transaksi';
 })
 export class KeranjangPage implements OnInit {
   items: KeranjangItem[] = [];
+  pesanError = '';
 
   constructor(
     private keranjangService: Keranjang,
@@ -31,18 +32,23 @@ export class KeranjangPage implements OnInit {
   }
 
   tambah(item: KeranjangItem) {
+    this.pesanError = '';
     this.keranjangService.tambahKeKeranjang(item.produk);
   }
 
   kurang(item: KeranjangItem) {
+    this.pesanError = '';
     this.keranjangService.kurangi(item.produk.id);
   }
 
   hapus(item: KeranjangItem) {
+    this.pesanError = '';
     this.keranjangService.hapus(item.produk.id);
   }
 
   konfirmasi() {
+    this.pesanError = this.transaksiService.validasiCheckout();
+    if (this.pesanError) return;
     const hasil = this.transaksiService.konfirmasi();
     if (hasil) {
       this.router.navigate(['/transaksi-detail', hasil.id]);

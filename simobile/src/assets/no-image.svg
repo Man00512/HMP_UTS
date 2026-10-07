@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320" role="img" aria-label="Gambar belum tersedia">
+  <rect width="480" height="320" fill="#e8eee8"/>
+  <rect x="170" y="75" width="140" height="110" rx="12" fill="none" stroke="#637663" stroke-width="6"/>
+  <circle cx="210" cy="110" r="12" fill="#637663"/>
+  <path d="M180 170L220 135L245 155L270 125L300 170" fill="none" stroke="#637663" stroke-width="6" stroke-linejoin="round"/>
+  <text x="240" y="235" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#354535">Gambar belum tersedia</text>
+</svg>
