@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Produk } from '../produk';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-produk-form',
@@ -13,7 +14,7 @@ export class ProdukFormPage implements OnInit {
   nama: string = '';
   kategori: string = '';
   gambar: string = '';
-  // Input number Ionic mengirim number, atau null saat dikosongkan.
+ 
   hargaBeli: number | string | null = '';
   hargaJual: number | string | null = '';
   stok: number | string | null = 0;
@@ -33,7 +34,8 @@ export class ProdukFormPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private produkService: Produk
+    private produkService: Produk,
+    public theme: Theme
   ) { }
 
   ngOnInit() {

@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [class.dark-theme]="theme.isDarkMode">
   <div class="kosong" *ngIf="!transaksi">
     <ion-text color="medium">Transaksi tidak ditemukan</ion-text>
   </div>

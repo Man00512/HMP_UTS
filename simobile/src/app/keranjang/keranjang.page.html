@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [class.dark-theme]="theme.isDarkMode">
   <div class="kosong" *ngIf="items.length == 0">
     <ion-text color="medium">Keranjang masih kosong</ion-text>
   </div>

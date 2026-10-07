@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [class.dark-theme]="theme.isDarkMode">
   <div class="bingkai-avatar">
     <div id="bingkaiAvatar">
       <ion-avatar id="avatarProfil" class="avatar-besar">
@@ -45,7 +45,7 @@
   </ion-card>
 </ion-content>
 
-<ion-footer>
+<ion-footer [class.dark-theme]="theme.isDarkMode">
   <ion-tab-bar slot="bottom">
     <ion-tab-button routerLink="/dashboard" routerLinkActive="tab-selected">
       <ion-icon name="home"></ion-icon>

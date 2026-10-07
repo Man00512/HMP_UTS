@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
 import { Produk } from '../produk';
 import { Transaksi } from '../transaksi';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,7 @@ export class DashboardPage implements OnInit {
     private produkService: Produk,
     private transaksiService: Transaksi,
     private animationCtrl: AnimationController,
+    public theme: Theme
   ) { }
 
   ngOnInit() {

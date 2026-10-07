@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Keranjang, KeranjangItem } from '../keranjang';
 import { Transaksi } from '../transaksi';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-keranjang',
@@ -16,7 +17,8 @@ export class KeranjangPage implements OnInit {
   constructor(
     private keranjangService: Keranjang,
     private transaksiService: Transaksi,
-    private router: Router
+    private router: Router,
+    public theme: Theme
   ) { }
 
   ngOnInit() {

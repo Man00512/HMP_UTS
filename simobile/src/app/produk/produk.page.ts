@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Produk, ProdukItem } from '../produk';
 import { Keranjang } from '../keranjang';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-produk',
@@ -15,7 +16,7 @@ export class ProdukPage implements OnInit {
   kategoriDipilih = 'Semua';          
   gambarDefault = 'assets/no-image.svg';
 
-  constructor(private produkService: Produk, private keranjangService: Keranjang) { }
+  constructor(private produkService: Produk, private keranjangService: Keranjang, public theme: Theme) { }
 
   ngOnInit() {
     this.listProduk = this.produkService.getSemuaProduk();

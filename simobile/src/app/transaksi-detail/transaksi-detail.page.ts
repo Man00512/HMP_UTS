@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaksi, TransaksiData } from '../transaksi';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-transaksi-detail',
@@ -12,7 +13,7 @@ export class TransaksiDetailPage implements OnInit {
   transaksiId = 0;
   transaksi: TransaksiData | undefined;
 
-  constructor(private route: ActivatedRoute, private transaksiService: Transaksi) { }
+  constructor(private route: ActivatedRoute, private transaksiService: Transaksi, public theme: Theme) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

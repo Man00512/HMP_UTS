@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Keranjang } from './keranjang';
+import { Theme } from './theme';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { Keranjang } from './keranjang';
   standalone: false,
 })
 export class AppComponent {
-  constructor(private router: Router, private keranjang: Keranjang) { }
+  constructor(private router: Router, private keranjang: Keranjang, public theme: Theme) { }
 
   logout() {
     this.keranjang.kosongkan();

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-profil',
@@ -15,7 +16,7 @@ export class ProfilPage {
   telepon = '0812-3456-7890';
   fotoProfil = 'https://i.pravatar.cc/300?img=47';
 
-  constructor(private animationCtrl: AnimationController) { }
+  constructor(private animationCtrl: AnimationController, public theme: Theme) { }
 
   fadeInAvatar() {
     const avatarElement = document.querySelector('#avatarProfil') as HTMLElement;

@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [class.dark-theme]="theme.isDarkMode">
   <div class="kosong" *ngIf="daftar.length === 0">
     <ion-text color="medium">Belum ada transaksi</ion-text>
   </div>
@@ -23,7 +23,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer [class.dark-theme]="theme.isDarkMode">
   <ion-tab-bar slot="bottom">
     <ion-tab-button routerLink="/dashboard" routerLinkActive="tab-selected">
       <ion-icon name="home"></ion-icon>

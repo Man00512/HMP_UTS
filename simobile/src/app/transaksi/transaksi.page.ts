@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Transaksi, TransaksiData } from '../transaksi';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-transaksi',
@@ -10,7 +11,7 @@ import { Transaksi, TransaksiData } from '../transaksi';
 export class TransaksiPage implements OnInit {
   daftar: TransaksiData[] = [];
 
-  constructor(private transaksiService: Transaksi) { }
+  constructor(private transaksiService: Transaksi, public theme: Theme) { }
 
   ngOnInit() {
     this.daftar = this.transaksiService.getSemua();

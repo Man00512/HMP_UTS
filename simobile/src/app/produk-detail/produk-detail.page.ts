@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
 import { Produk, ProdukItem } from '../produk';
 import { Keranjang } from '../keranjang';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-produk-detail',
@@ -22,7 +23,8 @@ export class ProdukDetailPage implements OnInit {
     private route: ActivatedRoute,
     private produkService: Produk,
     private keranjangService: Keranjang,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    public theme: Theme
   ) { }
 
   ngOnInit() {

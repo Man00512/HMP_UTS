@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-pengaturan',
@@ -7,23 +8,9 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class PengaturanPage implements OnInit {
-  gelap = false;
 
-  constructor() { }
+  constructor(public theme: Theme) { }
 
   ngOnInit() {
-    this.gelap = document.body.classList.contains('dark');
-  }
-
-  ionViewWillEnter() {
-    this.gelap = document.body.classList.contains('dark');
-  }
-
-  toggleDarkMode() {
-    if (this.gelap) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
   }
 }

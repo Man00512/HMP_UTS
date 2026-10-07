@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding" [class.dark-theme]="theme.isDarkMode">
 
   <div *ngIf="!produk" class="tidak-ditemukan">
     <ion-text color="medium">Produk tidak ditemukan.</ion-text>
