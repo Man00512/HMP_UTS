@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 export interface ProdukItem {
-  id: number;          
-  nama: string;        
-  kategori: string;    
-  gambar: string;      
-  hargaBeli: number;   
-  hargaJual: number;   
-  stok: number;       
+  id: number;
+  nama: string;
+  kategori: string;
+  gambar: string;
+  hargaBeli: number;
+  hargaJual: number;
+  stok: number;
 }
 
 @Injectable({
@@ -39,10 +39,10 @@ export class Produk {
   getProdukById(id: number): ProdukItem | undefined {
     for (let i = 0; i < this.daftarProduk.length; i++) {
       if (this.daftarProduk[i].id == id) {
-        return this.daftarProduk[i];   // ketemu -> kembalikan produknya
+        return this.daftarProduk[i];
       }
     }
-    return undefined;                  // tidak ketemu
+    return undefined;
   }
 
   getJumlahProduk(): number {
@@ -88,7 +88,7 @@ export class Produk {
     if (produk) {
       produk.stok = produk.stok - jumlah;
       if (produk.stok < 0) {
-        produk.stok = 0;   // stok tidak boleh negatif
+        produk.stok = 0;
       }
     }
   }

@@ -32,6 +32,10 @@ export class ProdukDetailPage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.produk = this.produkService.getProdukById(this.produkId);
+  }
+
   hitungKeuntungan(): number {
     if (!this.produk) return 0;
     return this.produk.hargaJual - this.produk.hargaBeli;

@@ -25,6 +25,14 @@ export class DashboardPage implements OnInit {
     this.muatData();
   }
 
+  ionViewWillEnter() {
+    this.muatData();
+  }
+
+  ionViewDidEnter() {
+    this.munculkanRingkasan();
+  }
+
   muatData() {
     this.jmlProduk = this.produkService.getJumlahProduk();
     this.jmlTransaksi = this.transaksiService.getJumlahHariIni();
@@ -38,6 +46,7 @@ export class DashboardPage implements OnInit {
 
   munculkanRingkasan() {
     const elemen = document.querySelector('#ringkasan') as HTMLElement;
+    if (!elemen) return;
     const animation = this.animationCtrl
       .create()
       .addElement(elemen)
@@ -48,13 +57,5 @@ export class DashboardPage implements OnInit {
         { offset: 1, opacity: '1', transform: 'translateY(0px)' },
       ]);
     animation.play();
-  }
-
-  ionViewWillEnter() {
-    this.muatData();
-  }
-
-  ionViewDidEnter() {
-    this.munculkanRingkasan();
   }
 }

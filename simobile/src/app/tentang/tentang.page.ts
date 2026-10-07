@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// ! AnimationController (PPT Week 7): import lalu inisialisasi di constructor
 import { AnimationController } from '@ionic/angular';
 
 @Component({

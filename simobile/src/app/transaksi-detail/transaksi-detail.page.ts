@@ -9,14 +9,20 @@ import { Transaksi, TransaksiData } from '../transaksi';
   standalone: false,
 })
 export class TransaksiDetailPage implements OnInit {
+  transaksiId = 0;
   transaksi: TransaksiData | undefined;
 
   constructor(private route: ActivatedRoute, private transaksiService: Transaksi) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.transaksi = this.transaksiService.getById(Number(params['id']));
+      this.transaksiId = Number(params['id']);
+      this.transaksi = this.transaksiService.getById(this.transaksiId);
     });
+  }
+
+  ionViewWillEnter() {
+    this.transaksi = this.transaksiService.getById(this.transaksiId);
   }
 
   formatRupiah(nilai: number): string {

@@ -21,9 +21,9 @@ export class PengaturanPage implements OnInit {
 
   toggleDarkMode() {
     if (this.gelap) {
-      document.body.classList.add('dark');      // gelap=true -> tambah class "dark"
+      document.body.classList.add('dark');
     } else {
-      document.body.classList.remove('dark');   // gelap=false -> hapus class "dark"
+      document.body.classList.remove('dark');
     }
   }
-}
+}

@@ -7,7 +7,7 @@ export interface TransaksiItem {
   nama: string;
   qty: number;
   hargaJual: number;
-  subtotal: number;    
+  subtotal: number;
 }
 
 export interface TransaksiData {
@@ -58,7 +58,7 @@ export class Transaksi {
   }
 
   getSemua(): TransaksiData[] {
-    return this.daftarTransaksi;
+    return [...this.daftarTransaksi];
   }
 
   getById(id: number): TransaksiData | undefined {
@@ -102,7 +102,7 @@ export class Transaksi {
     for (let i = 0; i < hariIni.length; i++) {
       for (let j = 0; j < hariIni[i].items.length; j++) {
         const barang = hariIni[i].items[j];
-        const posisi = namaProduk.indexOf(barang.nama);   // -1 = belum pernah dicatat
+        const posisi = namaProduk.indexOf(barang.nama);
         if (posisi == -1) {
           namaProduk.push(barang.nama);
           jumlahTerjual.push(barang.qty);
