@@ -8,76 +8,78 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding" [class.dark-theme]="theme.isDarkMode">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-text color="danger" *ngIf="produkTidakDitemukan">Produk tidak ditemukan. Kembali ke daftar produk untuk memilih ulang.</ion-text>
-  <ion-list *ngIf="!produkTidakDitemukan">
+  <form *ngIf="!produkTidakDitemukan" [formGroup]="formProduk" (ngSubmit)="simpan()">
+    <ion-list>
 
-    <ion-item>
-      <ion-input
-        label="Nama Produk"
-        labelPlacement="stacked"
-        placeholder="Masukkan nama produk"
-        [(ngModel)]="nama" (ngModelChange)="validasiSaatInput()">
-      </ion-input>
-    </ion-item>
-    <ion-note color="danger" class="pesan-error" *ngIf="errorNama">{{ errorNama }}</ion-note>
+      <ion-item>
+        <ion-input
+          label="Nama Produk"
+          labelPlacement="stacked"
+          placeholder="Masukkan nama produk"
+          formControlName="nama">
+        </ion-input>
+      </ion-item>
+      <ion-note color="danger" class="pesan-error" *ngIf="pesanError('nama')">{{ pesanError('nama') }}</ion-note>
 
-    <ion-item>
-      <ion-select
-        label="Kategori"
-        labelPlacement="stacked"
-        placeholder="Pilih kategori"
-        [(ngModel)]="kategori" (ngModelChange)="validasiSaatInput()">
-        <ion-select-option *ngFor="let k of kategoriList" [value]="k">{{ k }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-note color="danger" class="pesan-error" *ngIf="errorKategori">{{ errorKategori }}</ion-note>
+      <ion-item>
+        <ion-select
+          label="Kategori"
+          labelPlacement="stacked"
+          placeholder="Pilih kategori"
+          formControlName="kategori">
+          <ion-select-option *ngFor="let k of kategoriList" [value]="k">{{ k }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-note color="danger" class="pesan-error" *ngIf="pesanError('kategori')">{{ pesanError('kategori') }}</ion-note>
 
-    <ion-item>
-      <ion-input
-        type="url"
-        label="URL Gambar (opsional)"
-        labelPlacement="stacked"
-        placeholder="https://contoh.com/gambar.jpg"
-        [(ngModel)]="gambar">
-      </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-input
+          type="url"
+          label="URL Gambar (opsional)"
+          labelPlacement="stacked"
+          placeholder="https://contoh.com/gambar.jpg"
+          formControlName="gambar">
+        </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input
-        type="number"
-        label="Harga Beli"
-        labelPlacement="stacked"
-        placeholder="Contoh: 5000"
-        [(ngModel)]="hargaBeli" (ngModelChange)="validasiSaatInput()">
-      </ion-input>
-    </ion-item>
-    <ion-note color="danger" class="pesan-error" *ngIf="errorHargaBeli">{{ errorHargaBeli }}</ion-note>
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Harga Beli"
+          labelPlacement="stacked"
+          placeholder="Contoh: 5000"
+          formControlName="hargaBeli">
+        </ion-input>
+      </ion-item>
+      <ion-note color="danger" class="pesan-error" *ngIf="pesanError('hargaBeli')">{{ pesanError('hargaBeli') }}</ion-note>
 
-    <ion-item>
-      <ion-input
-        type="number"
-        label="Harga Jual"
-        labelPlacement="stacked"
-        placeholder="Contoh: 7000"
-        [(ngModel)]="hargaJual" (ngModelChange)="validasiSaatInput()">
-      </ion-input>
-    </ion-item>
-    <ion-note color="danger" class="pesan-error" *ngIf="errorHargaJual">{{ errorHargaJual }}</ion-note>
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Harga Jual"
+          labelPlacement="stacked"
+          placeholder="Contoh: 7000"
+          formControlName="hargaJual">
+        </ion-input>
+      </ion-item>
+      <ion-note color="danger" class="pesan-error" *ngIf="pesanError('hargaJual')">{{ pesanError('hargaJual') }}</ion-note>
 
-    <ion-item>
-      <ion-input
-        type="number"
-        label="Stok"
-        labelPlacement="stacked"
-        [(ngModel)]="stok" (ngModelChange)="validasiSaatInput()">
-      </ion-input>
-    </ion-item>
-    <ion-note color="danger" class="pesan-error" *ngIf="errorStok">{{ errorStok }}</ion-note>
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Stok"
+          labelPlacement="stacked"
+          formControlName="stok">
+        </ion-input>
+      </ion-item>
+      <ion-note color="danger" class="pesan-error" *ngIf="pesanError('stok')">{{ pesanError('stok') }}</ion-note>
 
-  </ion-list>
+    </ion-list>
 
-  <ion-button *ngIf="!produkTidakDitemukan" (click)="simpan()" expand="block" class="tombol-simpan">
-    Simpan Produk
-  </ion-button>
+    <ion-button type="submit" expand="block" class="tombol-simpan">
+      Simpan Produk
+    </ion-button>
+  </form>
 </ion-content>

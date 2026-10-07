@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Produk } from '../produk';
-import { Theme } from '../theme';
+
+// Soal UTS: harga wajib berupa angka yang lebih besar dari 0.
+function hargaPositif(control: AbstractControl): ValidationErrors | null {
+  const nilai = control.value;
+  if (nilai === null || nilai === '') return null; // Ditangani Validators.required.
+  if (typeof nilai !== 'number' || !Number.isFinite(nilai)) return { angka: true };
+  if (nilai <= 0) return { positif: true };
+  return null;
+}
 
 @Component({
   selector: 'app-produk-form',
@@ -10,14 +19,16 @@ import { Theme } from '../theme';
   standalone: false,
 })
 export class ProdukFormPage implements OnInit {
-
-  nama: string = '';
-  kategori: string = '';
-  gambar: string = '';
- 
-  hargaBeli: number | string | null = '';
-  hargaJual: number | string | null = '';
-  stok: number | string | null = 0;
+  formProduk = new FormGroup({
+    nama: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/\S/)] }),
+    kategori: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    gambar: new FormControl('', { nonNullable: true }),
+    hargaBeli: new FormControl<number | null>(null, [Validators.required, hargaPositif]),
+    hargaJual: new FormControl<number | null>(null, [Validators.required, hargaPositif]),
+    stok: new FormControl<number | null>(0, [
+      Validators.required, Validators.min(0), Validators.pattern(/^-?[0-9]+$/),
+    ]),
+  });
 
   kategoriList: string[] = [];
   modeEdit = false;
@@ -25,17 +36,10 @@ export class ProdukFormPage implements OnInit {
   sudahDikirim = false;
   produkTidakDitemukan = false;
 
-  errorNama: string = '';
-  errorKategori: string = '';
-  errorHargaBeli: string = '';
-  errorHargaJual: string = '';
-  errorStok: string = '';
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private produkService: Produk,
-    public theme: Theme
+    private produkService: Produk
   ) { }
 
   ngOnInit() {
@@ -53,87 +57,66 @@ export class ProdukFormPage implements OnInit {
   isiForm() {
     const produk = this.produkService.getProdukById(this.idEdit);
     if (produk) {
-
-      this.nama = produk.nama;
-      this.kategori = produk.kategori;
-      this.gambar = produk.gambar;
-      this.hargaBeli = produk.hargaBeli;
-      this.hargaJual = produk.hargaJual;
-      this.stok = produk.stok;
+      this.formProduk.setValue({
+        nama: produk.nama,
+        kategori: produk.kategori,
+        gambar: produk.gambar,
+        hargaBeli: produk.hargaBeli,
+        hargaJual: produk.hargaJual,
+        stok: produk.stok,
+      });
     } else {
       this.produkTidakDitemukan = true;
     }
   }
 
-
   resetForm() {
-    this.nama = '';
-    this.kategori = '';
-    this.gambar = '';
-    this.hargaBeli = '';
-    this.hargaJual = '';
-    this.stok = 0;
+    this.formProduk.reset({ nama: '', kategori: '', gambar: '', hargaBeli: null, hargaJual: null, stok: 0 });
     this.modeEdit = false;
     this.idEdit = 0;
     this.sudahDikirim = false;
     this.produkTidakDitemukan = false;
-    this.errorNama = '';
-    this.errorKategori = '';
-    this.errorHargaBeli = '';
-    this.errorHargaJual = '';
-    this.errorStok = '';
   }
 
-  validasiAngka(nilai: number | string | null, label: string, minimum: number): string {
-    if (nilai === null || String(nilai).trim() === '') {
-      return label + ' wajib diisi';
+  pesanError(namaField: string): string {
+    const control = this.formProduk.get(namaField);
+    if (!control || !(control.dirty || control.touched || this.sudahDikirim)) return '';
+
+    const label: { [key: string]: string } = {
+      nama: 'Nama produk', kategori: 'Kategori', hargaBeli: 'Harga beli',
+      hargaJual: 'Harga jual', stok: 'Stok',
+    };
+    if (control.hasError('required')) {
+      if (namaField === 'kategori') return 'Kategori wajib dipilih';
+      return label[namaField] + ' wajib diisi';
     }
-    // RegEx mengikuti latihan validasi pada Week 4.
-    if (!/^-?[0-9]+$/.test(String(nilai))) {
-      return label + ' harus berupa angka bulat';
-    }
-    if (Number(nilai) < minimum) {
-      if (minimum === 0) return label + ' tidak boleh negatif';
-      return label + ' harus lebih dari 0';
-    }
+    if (namaField === 'nama' && control.hasError('pattern')) return 'Nama produk wajib diisi';
+    if (control.hasError('angka')) return label[namaField] + ' harus berupa angka';
+    if (control.hasError('positif')) return label[namaField] + ' harus lebih dari 0';
+    if (control.hasError('min')) return 'Stok tidak boleh negatif';
+    if (control.hasError('pattern')) return 'Stok harus berupa angka bulat';
     return '';
-  }
-
-  validasi(): boolean {
-    this.errorNama = '';
-    if ((this.nama || '').trim() === '') this.errorNama = 'Nama produk wajib diisi';
-    this.errorKategori = '';
-    if (!this.kategori) this.errorKategori = 'Kategori wajib dipilih';
-    this.errorHargaBeli = this.validasiAngka(this.hargaBeli, 'Harga beli', 1);
-    this.errorHargaJual = this.validasiAngka(this.hargaJual, 'Harga jual', 1);
-    this.errorStok = this.validasiAngka(this.stok, 'Stok', 0);
-    return !this.errorNama && !this.errorKategori && !this.errorHargaBeli
-      && !this.errorHargaJual && !this.errorStok;
-  }
-
-  validasiSaatInput() {
-    if (this.sudahDikirim) this.validasi();
   }
 
   simpan() {
     this.sudahDikirim = true;
+    this.formProduk.markAllAsTouched();
     if (this.modeEdit && !this.produkService.getProdukById(this.idEdit)) {
       this.produkTidakDitemukan = true;
       return;
     }
-    if (!this.validasi()) {
-      return;
-    }
-    const namaTrim = this.nama.trim();
+    if (this.formProduk.invalid) return;
+
+    const data = this.formProduk.getRawValue();
     if (this.modeEdit) {
       this.produkService.updateProduk(
-        this.idEdit, namaTrim, this.kategori, this.gambar,
-        Number(this.hargaBeli), Number(this.hargaJual), Number(this.stok)
+        this.idEdit, data.nama.trim(), data.kategori, data.gambar.trim(),
+        Number(data.hargaBeli), Number(data.hargaJual), Number(data.stok)
       );
     } else {
       this.produkService.tambahProduk(
-        namaTrim, this.kategori, this.gambar,
-        Number(this.hargaBeli), Number(this.hargaJual), Number(this.stok)
+        data.nama.trim(), data.kategori, data.gambar.trim(),
+        Number(data.hargaBeli), Number(data.hargaJual), Number(data.stok)
       );
     }
     this.resetForm();
