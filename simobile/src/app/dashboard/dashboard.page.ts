@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
-import { Router, NavigationEnd } from '@angular/router';
 import { Produk } from '../produk';
 import { Transaksi } from '../transaksi';
 
@@ -20,18 +19,10 @@ export class DashboardPage implements OnInit {
     private produkService: Produk,
     private transaksiService: Transaksi,
     private animationCtrl: AnimationController,
-    private router: Router,
   ) { }
 
   ngOnInit() {
     this.muatData();
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        if (event.url === '/dashboard' || event.url === '/') {
-          this.muatData();
-        }
-      }
-    });
   }
 
   muatData() {
@@ -60,6 +51,7 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.muatData();
   }
 
   ionViewDidEnter() {

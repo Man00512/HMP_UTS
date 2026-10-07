@@ -22,6 +22,10 @@ export class KeranjangPage implements OnInit {
     this.items = this.keranjangService.getItems();
   }
 
+  ionViewWillEnter() {
+    this.items = this.keranjangService.getItems();
+  }
+
   totalBelanja(): number {
     return this.keranjangService.getTotalHarga();
   }
