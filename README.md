@@ -31,5 +31,7 @@ Buka http://localhost:8100 di browser.
 - 11 data dummy produk dari 5 kategori
 
 ## Anggota Kelompok
-
-- NRP - Nama
+- 160424031 - Oey Mathew Farrel Wiyono
+- 160424095 - Aston Christianto
+- 160424120 - Imanuel Ferdinand Sormin
+- 160424132 - Artchie Leonheart Constantianus
