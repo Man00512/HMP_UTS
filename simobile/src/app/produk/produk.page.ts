@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Produk, ProdukItem } from '../produk';
 import { Keranjang } from '../keranjang';
 
@@ -11,11 +11,11 @@ import { Keranjang } from '../keranjang';
 export class ProdukPage implements OnInit {
   listProduk: ProdukItem[] = [];      
   kategoriList: string[] = [];        
-  kataKunci = '';                    
-  kategoriDipilih = 'Semua';       
+  kataKunci = '';                     
+  kategoriDipilih = 'Semua';          
   gambarDefault = 'assets/no-image.svg';
 
-  constructor(private produkService: Produk, private keranjangService: Keranjang, private cdr: ChangeDetectorRef) { }
+  constructor(private produkService: Produk, private keranjangService: Keranjang) { }
 
   ngOnInit() {
     this.listProduk = this.produkService.getSemuaProduk();
@@ -23,7 +23,7 @@ export class ProdukPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.cdr.detectChanges();
+    this.listProduk = this.produkService.getSemuaProduk();
   }
 
   produkTampil(): ProdukItem[] {

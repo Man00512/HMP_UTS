@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
+import { Router, NavigationEnd } from '@angular/router';
 import { Produk } from '../produk';
 import { Transaksi } from '../transaksi';
 
@@ -10,31 +11,34 @@ import { Transaksi } from '../transaksi';
   standalone: false,
 })
 export class DashboardPage implements OnInit {
+  jmlProduk = 0;
+  jmlTransaksi = 0;
+  totalPenjualan = 0;
+  namaTerlaris = '-';
 
   constructor(
     private produkService: Produk,
     private transaksiService: Transaksi,
     private animationCtrl: AnimationController,
-    private cdr: ChangeDetectorRef
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    this.muatData();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/dashboard' || event.url === '/') {
+          this.muatData();
+        }
+      }
+    });
   }
 
-  jumlahProduk(): number {
-    return this.produkService.getJumlahProduk();
-  }
-
-  jumlahTransaksiHariIni(): number {
-    return this.transaksiService.getJumlahHariIni();
-  }
-
-  totalPenjualanHariIni(): number {
-    return this.transaksiService.getTotalHariIni();
-  }
-
-  produkTerlaris(): string {
-    return this.transaksiService.getProdukTerlaris();
+  muatData() {
+    this.jmlProduk = this.produkService.getJumlahProduk();
+    this.jmlTransaksi = this.transaksiService.getJumlahHariIni();
+    this.totalPenjualan = this.transaksiService.getTotalHariIni();
+    this.namaTerlaris = this.transaksiService.getProdukTerlaris();
   }
 
   formatRupiah(nilai: number): string {
@@ -56,7 +60,6 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.cdr.detectChanges();
   }
 
   ionViewDidEnter() {

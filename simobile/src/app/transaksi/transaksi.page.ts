@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Transaksi, TransaksiData } from '../transaksi';
 
 @Component({
@@ -10,16 +10,18 @@ import { Transaksi, TransaksiData } from '../transaksi';
 export class TransaksiPage implements OnInit {
   daftar: TransaksiData[] = [];
 
-  constructor(private transaksiService: Transaksi, private cdr: ChangeDetectorRef) { }
+  constructor(private transaksiService: Transaksi) { }
 
   ngOnInit() {
     this.daftar = this.transaksiService.getSemua();
   }
 
   ionViewWillEnter() {
-    this.cdr.detectChanges();
+    this.daftar = this.transaksiService.getSemua();
   }
 
+  // * Format angka ke Rupiah
+  // ? DIPANGGIL DARI HTML: {{ formatRupiah(t.total) }}
   formatRupiah(nilai: number): string {
     return 'Rp ' + nilai.toLocaleString('id-ID');
   }
